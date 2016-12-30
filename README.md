@@ -8,7 +8,7 @@ The text versions were converted using [TI-Graph Link 89](https://education.ti.c
 
 ## Courses
 
-- [ME 365: SYSTEMS AND MEASUREMENTS](pdfs/me365.pdf)
+- [ME 365: Systems and Measurements](pdfs/me365.pdf)
 - [ME 572:  Design and Analysis of Robotic Manipulators](pdfs/me572.pdf)
 - [ME 575: Theory and Design of Control Systems](pdfs/me575.pdf)
 - [STAT 514: Design of Experiments](http://www.stat.purdue.edu/~kuczek/stat514/)
