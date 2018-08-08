@@ -1,0 +1,28 @@
+\START92\
+\COMMENT=
+\NAME=arbrot
+\FILE=me572.arbrot.89f
+(x,y,z,\phi\,t)
+Func
+\(C)\Arbitrary Axis
+Local \alpha\,\beta\,\phi\,l,v
+\(C)\Normalize
+\root\(x^2+y^2+z^2)\->\l
+x/l\->\x
+y/l\->\y
+z/l\->\z
+\(C)\ sin\^-1\(y/(\root\(y^2+z^2)))\->\\alpha\
+If z=0 and y=0 Then
+0\->\\alpha\
+Else
+R\to\P\theta\(z,y)\->\\alpha\
+EndIf
+cos\^-1\(\root\(y^2+z^2))\->\\beta\
+1-cos(\phi\)\->\v
+If t=1 Then
+Return rotx(\(-)\\alpha\)*roty(\beta\)*rotz(\phi\)*roty(\(-)\\beta\)*rotx(\alpha\)
+Else
+Return [[x^2*v+cos(\phi\),x*y*v-z*sin(\phi\),x*z*v+y*sin(\phi\)][x*y*v+z*sin(\phi\),y^2*v+cos(\phi\),y*z*v-x*sin(\phi\)][x*z*v-y*sin(\phi\),y*z*v+x*sin(\phi\),z^2*v+cos(\phi\)]]
+EndIf
+EndFunc
+\STOP92\

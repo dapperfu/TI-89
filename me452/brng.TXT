@@ -1,0 +1,622 @@
+\START92\
+\COMMENT=
+\NAME=brng
+\FILE=me452.brng.89p
+()
+Prgm
+ClrIO
+Disp  ""
+ClrIO
+Lbl  top
+Toolbar
+Title  "Quit",quit
+Title  "Roller"
+Item  "Method",brngm
+Item  "Life (rot.)",lir
+Item  "x[d] dimless life",xdl
+Item  "C[10] (catalog)",c10cat
+Item  "C[10] (full)",c10
+Item  "C[10]\->\bore",c102b
+Item  "F[a]+F[r]\->\F[e]",fafrfe
+Item  "X,Y\->\F[e]",xyfe
+Title  "Journal"
+Item  "Clearance",jbrclr
+Item  "Pressure",jbrpsr
+Item  "Sommerfield",jsomm
+Item  "Min film-thickness",jmft
+Item  "Min film position",jmfl
+Item  "Coef. Friction",jcoef
+Item  "Flow Rate Q",jq
+Item  "Side flow Q[s]",jqs
+Item  "Power Loss H",jpl
+Title  "Shafts & Axles"
+Item  "DE-Gerber",deg
+Item  "DE-Elliptic",dee
+Item  "Soderberg",soder
+Item  "DE-Goodman",deo
+Item  "Find d (all)",fdam
+Item  "Find n (all)",fnam
+EndTBar
+\(C)\
+Lbl  zzz
+ClrIO
+
+Goto  top
+\(C)\
+Lbl  jcoef
+ClrIO
+Disp  "Fig. 12-18 pg. 629"
+Disp  "l/d + S \->\ r/c*f \->\ f"
+Goto  top
+\(C)\
+Lbl  fnam
+ClrIO
+PopUp  {"M[m]=0 & T[a]=0","M[m]\!=\0 & T[a]\!=\0"},mmta
+Input  "K[f]=",kf
+Input  "K[fs]=",kfs
+If mmta=2 Then
+Input  "M[m]=",mm
+Else
+0\->\mm
+EndIf
+Input  "M[a]=",ma
+Input  "T[m]=",tm
+If mmta=2 Then
+Input  "T[a]=",ta
+Else
+0\->\ta
+EndIf
+Input  "S[e]=",se
+Input  "S[ut]=",sut
+Input  "S[y]=",syy
+Input  "d=",d
+ClrIO
+Disp  "       Calculating       "
+\root\(4*(kf*ma)^2+3*(kfs*ta)^2)\->\a
+\root\(4*(kf*mm)^2+3*(kfs*tm)^2)\->\b
+(16/(\pi\*d^3)*(1/se*\root\(4*(kf*ma)^2+3*(kfs*ta)^2)+1/sut*\root\(4*(kf*mm)^2+3*(kfs*tm)^2)))^(\(-)\1)\->\goo
+(32/(\pi\*d^3)*\root\(kf^2*(mm/syy+ma/se)^2+kfs^2*(tm/syy+ta/se)^2))^(\(-)\1)\->\sod
+d^3*abs(se*syy)*\pi\/(16*\root\(a^2*syy^2+b^2*se^2))\->\ell
+(8*a/(\pi\*d^3*se)*(1+\root\(1+(2*b*se/(a*sut))^2)))^(\(-)\1)\->\ger
+ClrIO
+Disp  "Gerber="&string(ger)
+Disp  "Elliptic="&string(ell)
+Disp  "Soderberg="&string(sod)
+Disp  "Goodman="&string(goo)
+Goto  top
+\(C)\
+Lbl  fdam
+ClrIO
+PopUp  {"M[m]=0 & T[a]=0","M[m]\!=\0 & T[a]\!=\0"},mmta
+Input  "K[f]=",kf
+Input  "K[fs]=",kfs
+If mmta=2 Then
+Input  "M[m]=",mm
+Else
+0\->\mm
+EndIf
+Input  "M[a]=",ma
+Input  "T[m]=",tm
+If mmta=2 Then
+Input  "T[a]=",ta
+Else
+0\->\ta
+EndIf
+Input  "S[e]=",se
+Input  "S[ut]=",sut
+Input  "S[y]=",syy
+Input  "n=",n
+ClrIO
+Disp  "       Calculating       "
+\root\(4*(kf*ma)^2+3*(kfs*ta)^2)\->\a
+\root\(4*(kf*mm)^2+3*(kfs*tm)^2)\->\b
+(16*n/(\pi\)*(1/se*\root\(4*(kf*ma)^2+3*(kfs*ta)^2)+1/sut*\root\(4*(kf*mm)^2+3*(kfs*tm)^2)))^(1/3)\->\goo
+(32*n/(\pi\)*\root\(kf^2*(mm/syy+ma/se)^2+kfs^2*(tm/syy+ta/se)^2))^(1/3)\->\sod
+(16*n/(\pi\)*\root\(a^2/se^2+b^2/syy^2))^(1/3)\->\ell
+(8*n*a/(\pi\*se)*(1+\root\(1+(2*b*se/(a*sut))^2)))^(1/3)\->\ger
+ClrIO
+setUnits({"Custom","Length","_mm"})
+Disp  "Gerber="&string(ger)
+Disp  "Elliptic="&string(ell)
+Disp  "Soderberg="&string(sod)
+Disp  "Goodman="&string(goo)
+Pause  
+ClrIO
+setUnits({"Custom","Length","_in"})
+Disp  "Gerber="&string(ger)
+Disp  "Elliptic="&string(ell)
+Disp  "Soderberg="&string(sod)
+Disp  "Goodman="&string(goo)
+setUnits({"SI","Length","_m"})
+Goto  top
+\(C)\
+
+Lbl  deo
+ClrIO
+Disp  "Eqn 18-31,18-32"
+Disp  "For M[m]=0 & T[a]=0"
+Disp  "Eqn 18-33,18-34"
+Disp  "pg. 941-942"
+Pause  
+ClrIO
+PopUp  {"M[m]=0 & T[a]=0","M[m]\!=\0 & T[a]\!=\0"},mmta
+Input  "K[f]=",kf
+Input  "K[fs]=",kfs
+If mmta=2 Then
+Input  "M[m]=",mm
+Else
+0\->\mm
+EndIf
+Input  "M[a]=",ma
+Input  "T[m]=",tm
+If mmta=2 Then
+Input  "T[a]=",ta
+Else
+0\->\ta
+EndIf
+Input  "S[e]=",se
+Input  "S[ut]=",sut
+ClrIO
+PopUp  {"Find d with n","Find n with d"},s
+If s=1 Then
+Input  "n=",n
+Else
+Input  "d=",d
+EndIf
+ClrIO
+Disp  "       Calculating       "
+If s=1 Then
+(16*n/(\pi\)*(1/se*\root\(4*(kf*ma)^2+3*(kfs*ta)^2)+1/sut*\root\(4*(kf*mm)^2+3*(kfs*tm)^2)))^(1/3)\->\d
+ClrIO
+setUnits({"Custom","Length","_mm"})
+Disp  "d="&string(d)
+setUnits({"Custom","Length","_in"})
+Disp  "d="&string(d)
+setUnits({"SI","Length","_m"})
+Else
+(16/(\pi\*d^3)*(1/se*\root\(4*(kf*ma)^2+3*(kfs*ta)^2)+1/sut*\root\(4*(kf*mm)^2+3*(kfs*tm)^2)))^(\(-)\1)\->\n
+ClrIO
+Disp  "1/n="&string(1/n)
+Disp  "n="&string(n)
+EndIf
+Goto  top
+\(C)\
+Lbl  soder
+ClrIO
+Disp  "Eqn 18-27,18-28"
+Disp  "For M[m]=0 & T[a]=0"
+Disp  "Eqn 18-29,18-30"
+Disp  "pg. 941"
+Pause  
+ClrIO
+PopUp  {"M[m]=0 & T[a]=0","M[m]\!=\0 & T[a]\!=\0"},mmta
+Input  "K[f]=",kf
+Input  "K[fs]=",kfs
+If mmta=2 Then
+Input  "M[m]=",mm
+Else
+0\->\mm
+EndIf
+Input  "M[a]=",ma
+Input  "T[m]=",tm
+If mmta=2 Then
+Input  "T[a]=",ta
+Else
+0\->\ta
+EndIf
+Input  "S[e]=",se
+Input  "S[y]=",syy
+ClrIO
+PopUp  {"Find d with n","Find n with d"},s
+If s=1 Then
+Input  "n=",n
+Else
+Input  "d=",d
+EndIf
+ClrIO
+Disp  "       Calculating       "
+If s=1 Then
+(32*n/(\pi\)*\root\(kf^2*(mm/syy+ma/se)^2+kfs^2*(tm/syy+ta/se)^2))^(1/3)\->\d
+ClrIO
+setUnits({"Custom","Length","_mm"})
+Disp  "d="&string(d)
+setUnits({"Custom","Length","_in"})
+Disp  "d="&string(d)
+setUnits({"SI","Length","_m"})
+Else
+(32/(\pi\*d^3)*\root\(kf^2*(mm/syy+ma/se)^2+kfs^2*(tm/syy+ta/se)^2))^(\(-)\1)\->\n
+ClrIO
+Disp  "1/n="&string(1/n)
+Disp  "n="&string(n)
+EndIf
+Goto  top
+\(C)\
+Lbl  dee
+ClrIO
+Disp  "Eqn 18-19,18-20"
+Disp  "For M[m]=0 & T[a]=0"
+Disp  "Eqn 18-21,18-22"
+Disp  "pg. 936"
+Pause  
+ClrIO
+PopUp  {"M[m]=0 & T[a]=0","M[m]\!=\0 & T[a]\!=\0"},mmta
+Input  "K[f]=",kf
+Input  "K[fs]=",kfs
+If mmta=2 Then
+Input  "M[m]=",mm
+Else
+0\->\mm
+EndIf
+Input  "M[a]=",ma
+Input  "T[m]=",tm
+If mmta=2 Then
+Input  "T[a]=",ta
+Else
+0\->\ta
+EndIf
+Input  "S[e]=",se
+Input  "S[y]=",syy
+ClrIO
+PopUp  {"Find d with n","Find n with d"},s
+If s=1 Then
+Input  "n=",n
+Else
+Input  "d=",d
+EndIf
+ClrIO
+Disp  "       Calculating       "
+\root\(4*(kf*ma)^2+3*(kfs*ta)^2)\->\a
+\root\(4*(kf*mm)^2+3*(kfs*tm)^2)\->\b
+If s=1 Then
+(16*n/(\pi\)*\root\(a^2/se^2+b^2/syy^2))^(1/3)\->\d
+ClrIO
+setUnits({"Custom","Length","_mm"})
+Disp  "d="&string(d)
+setUnits({"Custom","Length","_in"})
+Disp  "d="&string(d)
+setUnits({"SI","Length","_m"})
+Else
+d^3*abs(se*syy)*\pi\/(16*\root\(a^2*syy^2+b^2*se^2))\->\n
+ClrIO
+Disp  "1/n="&string(1/n)
+Disp  "n="&string(n)
+EndIf
+Disp  "","r="&string(approx(a/b))
+Goto  top
+\(C)\
+Lbl  deg
+ClrIO
+Disp  "Eqn 18-13,18-14,18-15"
+Disp  "For M[m]=0 & T[a]=0"
+Disp  "Eqn 18-16,18-17,18-18"
+Disp  "pg. 935"
+Pause  
+ClrIO
+PopUp  {"M[m]=0 & T[a]=0","M[m]\!=\0 & T[a]\!=\0"},mmta
+Input  "K[f]=",kf
+Input  "K[fs]=",kfs
+If mmta=2 Then
+Input  "M[m]=",mm
+Else
+0\->\mm
+EndIf
+Input  "M[a]=",ma
+Input  "T[m]=",tm
+If mmta=2 Then
+Input  "T[a]=",ta
+Else
+0\->\ta
+EndIf
+Input  "S[e]=",se
+Input  "S[ut]=",sut
+ClrIO
+PopUp  {"Find d with n","Find n with d"},s
+If s=1 Then
+Input  "n=",n
+Else
+Input  "d=",d
+EndIf
+ClrIO
+Disp  "       Calculating       "
+\root\(4*(kf*ma)^2+3*(kfs*ta)^2)\->\a
+\root\(4*(kf*mm)^2+3*(kfs*tm)^2)\->\b
+If s=1 Then
+(8*n*a/(\pi\*se)*(1+\root\(1+(2*b*se/(a*sut))^2)))^(1/3)\->\d
+ClrIO
+setUnits({"Custom","Length","_mm"})
+Disp  "d="&string(d)
+setUnits({"Custom","Length","_in"})
+Disp  "d="&string(d)
+setUnits({"SI","Length","_m"})
+Else
+(8*a/(\pi\*d^3*se)*(1+\root\(1+(2*b*se/(a*sut))^2)))^(\(-)\1)\->\n
+ClrIO
+Disp  "1/n="&string(1/n)
+Disp  "n="&string(n)
+EndIf
+Disp  "","r="&string(approx(a/b))
+Goto  top
+\(C)\
+Lbl  jpl
+ClrIO
+Disp  "pg. 633"
+Disp  "H[loss]=4*\pi\*P*r*N/j*","                  (r*f/c)"
+Pause  
+ClrIO
+Input  "P (pressure)=",p
+Input  "r (journal radius)=",r
+Input  "l (journal length)=",l
+Input  "N (rot/sec)=",n
+Input  "c (journal clearance)=",c
+Input  "J (heat equivalent)=",j
+Input  "f*r/c (Fig. 12-18  pg 629)",frc
+ClrIO
+Disp  "H[loss]="&string(approx(4*\pi\*p*r*l*n*c/j*frc))
+Goto  top
+\(C)\
+Lbl  jqs
+ClrIO
+Disp  "Figure 12-20 pg. 630"
+Disp  "S + l/d \->\ Q[s]/Q"
+Disp  "Q[s]/Q=Graph"
+Goto  top
+\(C)\
+Lbl  jq
+ClrIO
+Disp  "Figure 12-19 pg. 630"
+Disp  "Q/(r*c*N*l)=Graph"
+Pause  
+ClrIO
+Input  "Graph Reading (pg 630)=",g
+Input  "r (bearing radius)=",r
+Input  "c (clearance)=",c
+Input  "N (rot/sec)=",n
+Input  "l (bearing length)=",l
+ClrIO
+Disp  "Q="&string(approx(g*r*c*n*l))
+Goto  top
+\(C)\
+Lbl  zzz
+ClrIO
+
+Goto  top
+\(C)\
+Lbl  jmfl
+ClrIO
+Disp  "Figure 12-17 pg. 627"
+Disp  "l/d + S \->\ \phi\"
+Goto  top
+\(C)\
+Lbl  jmft
+ClrIO
+Disp  "Figure 12-16 pg. 626"
+Disp  "l/d & S \->\ h0/c \->\ c"
+Pause  
+ClrIO
+Input  "h0/c=",hc
+Input  "c=",c
+ClrIO
+Disp  "h0=h0/c*c"
+Disp  "h0="&string(approx(hc*c))
+Goto  top
+\(C)\
+Lbl  jsomm
+ClrIO
+Disp  "Eqn 12-7  pg. 612"
+Disp  "S=(r/c)^2*\mu\*N/P"
+Pause  
+ClrIO
+Input  "(r/c)=",rc
+Input  "\mu\=",\mu\
+Input  "N (revs/sec)=",n
+Input  "P=",p
+ClrIO
+Disp  "S=(r/c)^2*\mu\*N/P"
+Disp  "S="&string(approx(rc^2*\mu\*n/p))
+Goto  top
+\(C)\
+Lbl  jbrpsr
+ClrIO
+Disp  "pg. 637"
+Disp  "P=W/(l*d)"
+Goto  top
+\(C)\
+Lbl  jbrclr
+ClrIO
+Disp  "pg 644"
+Input  "journal diameter=",jd
+Input  "unilateral tolerance=",ut
+If ut>0 Then
+jd+ut\->\jd
+EndIf
+Input  "bearing diameter=",bd
+Input  "unilateral tolerance=",ut
+If ut<0 Then
+bd+ut\->\bd
+EndIf
+ClrIO
+Disp  "Mininal Clearance"
+Disp  "max(d[j]))="&string(jd)
+Disp  "min(d[b]))="&string(bd)
+Disp  "c[min]="&string(approx((bd-jd)/2))
+Disp  "Ratio"
+Disp  "r/c="&string(approx(jd/(bd-jd)))
+Goto  top
+\(C)\
+Lbl  brngm
+ClrIO
+Disp  "1: Calculate Life, L"
+Disp  "2: Dim. Less Life, x[d]"
+Disp  "3: C[10] full W/F[d]=F[r]"
+Disp  "4: Select Bearing Size"
+Disp  "5: F[a],F[r],C[0]\->\F[e]"
+Disp  "6: C[10] full W/F[d]=F[e]"
+Pause  
+ClrIO
+Disp  "if(C[10] calc>C[10] Brng","Select new brng from C[10]","and repeat 3-5","           else          "
+Disp  "Use selected bearing"
+Goto  top
+\(C)\
+Lbl  c10cat
+ClrIO
+Disp  "R[d]=0.90"
+Disp  "Eqn. 11-3 (pg. 565)"
+Input  "F[desired]=",fd
+Input  "x[d]=",xd
+ClrIO
+PopUp  {"Ball","Roller"},a:If a=1 Then:3\->\a:Else:10/3\->\a:EndIf:
+Disp  "C[10]=F[d]*(x[d])^(1/a)"
+Disp  "C[10]="&string(approx(fd*xd^(1/a)))
+Goto  top
+\(C)\
+Lbl  fafrfe
+ClrIO
+Disp  "Combined loading (pg. 569)"
+Input  "F[axial]=",fa
+Input  "F[radial]=",fr
+Input  "C[0]=",c0
+fa/c0\->\x
+If x<0.014 Then
+0.014\->\x
+EndIf
+DelVar  a
+PopUp  {"Inner Ring Rot.","Outter Ring Rot.","Self-Aligning"},a
+If a=2 Then
+1.2\->\v
+Else
+1\->\v
+EndIf
+ClrIO
+Disp  "From Table 11-1 (pg. 570)"
+\(-)\10.436287570904*x^4+13.921915622481*x^3+\(-)\6.8858538900814*x^2+1.799753415453*x+0.17284008041084\->\e
+Disp  "F[a]/C[0]="&string(approx(round(x,3)))
+Disp  "e="&string(approx(round(e,2))),"F[a]/(V*F[r])="&string(approx(round(fa/(v*fr),3))),"      (approx see pg 570)"
+Pause  
+ClrIO
+If fa/(v*fr)\<=\e Then
+Disp  "F[a]/(V*F[r])\<=\e"
+1\->\x
+0\->\y
+Else
+Disp  "F[a]/(V*F[r])>e"
+0.56\->\x
+If fa/c0<0.014 Then
+14\->\z
+Else
+fa/c0*1000\->\z
+EndIf
+1.3896762339645\ee\\(-)\010*(z^4-1305.2743201568*z^3+595848.68012783*z^2-118475506.05633*z+17589930294.984)\->\y
+EndIf
+Disp  "X="&string(approx(round(x,2)))
+Disp  "Y="&string(approx(round(y,2)))
+Disp  "Table 11-1 (pg. 570)"
+Pause  
+Goto  xyfecalc
+Lbl  xyfe
+ClrIO
+Input  "F[axial]=",fa
+Input  "F[radial]=",fr
+Input  "X=",x
+Input  "Y=",y
+ClrIO
+PopUp  {"Inner Ring Rot.","Outter Ring Rot.","Self-Aligning"},a
+If a=2 Then
+1.2\->\v
+Else
+1\->\v
+EndIf
+Lbl  xyfecalc
+ClrIO
+Disp  "F[e]=X*V*F[r]+Y*F[a]"
+Disp  "F[e]="&string(approx(round(x,2)))&"*"&string(approx(round(v,2)))&"*"&string(approx(round(fr,2)))&"+"&string(approx(round(y,2)))&"*"&string(approx(round(fa,2)))
+Disp  "F[e]="&string(approx(round(x*v*fr+y*fa,3)))
+Disp  
+Goto  top
+\(C)\
+Lbl  c102b
+ClrIO
+PopUp  {"Ball","Cylind. Roller"},bt
+If bt=1 Then
+PopUp  {"Deep Groove","Angular Contact"},typ
+Input  "C[10] (kN)=",x
+ClrIO
+Disp  "02-Series Deep-Groove & ","Angular-Contact Ball Brng","Table 11-2 (pg. 571)"
+If typ=1 Then
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\1.4874324978766\ee\\(-)\007*x^4+3.096544763568\ee\\(-)\005*x^3+\(-)\0.0074923435856052*x^2+1.4816181203303*x+3.189390149411))
+Else
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\5.2755400664364\ee\\(-)\007*x^4+0.00013632536676788*x^3+\(-)\0.015762346186378*x^2+1.6078565519789*x+2.355754614316))
+EndIf
+Else
+PopUp  {"02-Series","03-Series"},a
+Input  "C[10] (kN)=",x
+ClrIO
+Disp  "02/03-Series Cylindrical","        Roller Bearings","Table 11-3 (pg. 572)"
+If a=1 Then
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\2.3310221266159\ee\\(-)\008*x^4+2.1801584165101\ee\\(-)\005*x^3+\(-)\0.0071570611623451*x^2+1.2514970068375*x+3.660481213309))
+Else
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\4.3297731447135\ee\\(-)\010*x^4+1.0257049101902\ee\\(-)\006*x^3+\(-)\0.00093941389775544*x^2+0.48824804149965*x+13.689230464954))
+EndIf
+
+EndIf
+
+
+Goto  top
+\(C)\
+Lbl  c10
+ClrIO
+Disp  "Eqn. 11-6 (pg. 567)"
+Disp  "Eqn. 11-7 (pg. 568)"
+Input  "F[desired]=",fd
+Input  "Application Factor=",af
+fd*af\->\fd
+Input  "x[d]=",xd
+Input  "R[d]=",rd
+ClrIO
+Disp  "Table pg 601"
+Input  "x[0]=",x0
+Input  "\theta\=",\theta\
+Input  "b=",b
+ClrIO
+PopUp  {"Ball","Roller"},a
+If a=1 Then
+3\->\a
+Else
+10/3\->\a
+EndIf
+ClrIO
+Disp  "Eqn. 11-6"
+Disp  "C[10]="&string(approx(fd*(xd/(x0+(\theta\-x0)*(ln(1/rd))^(1/b)))^(1/a)))
+Disp  "Eqn. 11-7"
+Disp  "C[10]="&string(approx(fd*(xd/(x0+(\theta\-x0)*(1-rd)^(1/b)))^(1/a)))
+Goto  top
+\(C)\
+Lbl  xdl
+ClrIO
+Disp  "pg. 565"
+Disp  "x[d]=L/L[10]=L*n*60/","         (L[10]*n[10]*60)"
+Disp  "L[10] on pg 601"
+Input  "L[10] (revs)=",l10
+Input  "L[d] (hours)=",l
+Input  "n[d] (rpm)=",n
+ClrIO
+Disp  "x[d]=L/L[10]"
+
+Disp  "x[d]="&string(approx(60*l*n/l10))
+Goto  top
+\(C)\
+Lbl  lir
+ClrIO
+Disp  "pg. 568"
+Disp  "L=60*L[d]*n[d]"
+Input  "L[d] (hours)=",l
+Input  "n[d] (rpm)=",n
+ClrIO
+Disp  "L=60*L[d]*n[d]"
+Disp  "L="&string(approx(60*l*n))&" revs."
+Goto  top
+Lbl  quit
+ClrIO
+DispHome
+EndPrgm
+
+\STOP92\

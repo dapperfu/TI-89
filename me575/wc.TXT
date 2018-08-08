@@ -1,0 +1,27 @@
+\START92\
+\COMMENT=
+\NAME=wc
+\FILE=me575.wc.89f
+(a,b)
+Func
+Local  m,o,c,r,q
+If colDim(a)\!=\rowDim(a) Then
+Return  "A matrix is not square"
+EndIf
+If colDim(a)\!=\rowDim(b) Then
+Return  "Matrix math will fail"
+EndIf
+
+newMat(rowDim(b),colDim(a)*colDim(b))\->\m
+For  o,0,colDim(a)-1
+a^o*b\->\q
+For  c,1,colDim(q)
+For  r,1,rowDim(q)
+q[r,c]\->\m[r,colDim(b)*o+c]
+EndFor
+EndFor
+EndFor
+Return  m
+EndFunc
+
+\STOP92\

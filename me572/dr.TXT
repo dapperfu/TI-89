@@ -1,0 +1,10 @@
+\START92\
+\COMMENT=
+\NAME=dr
+\FILE=me572.dr.89f
+()
+Func
+\(C)\dQ rot
+return [[0,\(-)\1,0,0][1,0,0,0][0,0,0,0][0,0,0,0]]
+EndFunc
+\STOP92\

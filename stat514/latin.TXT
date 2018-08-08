@@ -1,0 +1,87 @@
+\START92\
+\COMMENT=
+\NAME=latin
+\FILE=statvars.latin.89p
+(data,mask1)
+Prgm
+ClrIO
+Disp  "Processing..."
+dim(data)\->\d
+If d[1]\!=\d[2] Then
+4/0
+EndIf
+d[1]\->\p
+
+mat\to\list(data)\->\datal
+{}\->\col
+{}\->\row
+{}\->\yi
+{}\->\yj
+{}\->\yk
+For  i,1,p
+sum(mat\to\list(data[i]))\->\yi[i]
+sum(mat\to\list(data\t\[i]))\->\yk[i]
+EndFor
+mean(datal)\->\\mu\
+summask(data,mask1)
+tot\->\yj
+yi/p\->\row
+yj/p\->\trt
+yk/p\->\col
+ClrIO
+Disp  "\ymean\[i**](rows)="
+Disp  round(row,2)
+Disp  "\ymean\[*j*](trt)="
+Disp  round(trt,2)
+Disp  "\ymean\[**k](cols)="
+Disp  round(col,2)
+Disp  "\mu\=\ymean\[***]="&string(round(\mu\,3))
+row-\mu\\->\\alpha\
+trt-\mu\\->\\tau\
+col-\mu\\->\\beta\
+p*sum(\alpha\^2)\->\ssrow
+p*sum(\tau\^2)\->\sstrt
+p*sum(\beta\^2)\->\sscol
+sum((datal-\mu\)^2)\->\sst
+sst-ssrow-sstrt-sscol\->\sse
+Pause  
+ClrIO
+Disp  "\tau\="
+Disp  round(\tau\,3)
+Disp  "\alpha\="
+Disp  round(\alpha\,3)
+Disp  "\beta\="
+Disp  round(\beta\,3)
+Pause  
+ClrIO
+Disp  "SS[trt]="&string(approx(sstrt))
+Disp  "SS[row]="&string(approx(ssrow))
+Disp  "SS[col]="&string(approx(sscol))
+Disp  "SS[e]="&string(approx(sse))
+Disp  "SS[T]="&string(approx(sst))
+ssrow/(p-1)\->\msrow
+sstrt/(p-1)\->\mstrt
+sscol/(p-1)\->\mscol
+sse/((p-2)*(p-1))\->\mse
+Pause  
+ClrIO
+Disp  "MS[trt]="&string(round(mstrt,8))
+Disp  "MS[row]="&string(round(msrow,8))
+Disp  "MS[col]="&string(round(mscol,8))
+Disp  "MS[e]="&string(round(mse,8))
+msrow/mse\->\frow
+mscol/mse\->\fcol
+mstrt/mse\->\ftrt
+tistat.fcdf(frow,\infinity\,p-1,(p-1)*(p-2))\->\prow
+tistat.fcdf(fcol,\infinity\,p-1,(p-1)*(p-2))\->\pcol
+tistat.fcdf(ftrt,\infinity\,p-1,(p-1)*(p-2))\->\ptrt
+Pause  
+ClrIO
+Disp  "F[trt]="&string(round(ftrt,2))&"  P[trt]="&string(round(ptrt,4))
+Disp  "F[row]="&string(round(frow,2))&"  P[row]="&string(round(prow,4))
+Disp  "F[col]="&string(round(fcol,2))&"  P[col]="&string(round(pcol,4))
+Pause  
+ClrIO
+EndPrgm
+
+\STOP92\

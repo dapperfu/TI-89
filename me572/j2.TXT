@@ -1,0 +1,49 @@
+\START92\
+\COMMENT=
+\NAME=j2
+\FILE=me572.j2.89p
+(a1,a2,type)
+Prgm
+\(C)\ 6x1 Jacobian
+2\->\n
+identity(4)\->\tn0
+For i,1,1
+"tn"&string(i-1)&"*a"&string(i)&"\->\tn"&string(i)\->\cmd
+expr(cmd)
+EndFor
+"tn"&string(n)&"\->\tm"\->\cmd
+expr(cmd)
+\(C)\P
+subMat(tm,1,4,3,4)\->\pe
+For i,0,n
+"subMat(tn"&string(i)&",1,4,3,4)\->\p"&string(i)\->\cmd
+expr(cmd)
+"subMat(tn"&string(i)&",1,3,3,3)\->\an"&string(i)\->\cmd
+expr(cmd)
+EndFor
+\(C)\a[i-1]x(P[e]-P[i-1])
+For i,0,n
+"crossP(an"&string(i)&",pe-p"&string(i)&")\->\ap"&string(i)\->\cmd
+expr(cmd)
+EndFor
+newMat(6,n)\->\j
+\(C)\ column K
+For k,1,n
+If mid(type,k,1)="r" Then
+For i,1,3
+"ap"&string(k-1)&"["&string(i)&",1]\->\j["&string(i)&","&string(k)&"]"\->\cmd
+expr(cmd)
+EndFor
+For i,4,6
+"an"&string(k-1)&"["&string(i-3)&",1]\->\j["&string(i)&","&string(k)&"]"\->\cmd
+expr(cmd)
+EndFor
+Else
+For i,1,3
+"an"&string(k-1)&"["&string(i)&",1]\->\j["&string(i)&","&string(k)&"]"\->\cmd
+expr(cmd)
+EndFor
+EndIf
+EndFor
+EndPrgm
+\STOP92\

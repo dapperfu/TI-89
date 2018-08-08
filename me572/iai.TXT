@@ -1,0 +1,17 @@
+\START92\
+\COMMENT=
+\NAME=iai
+\FILE=me572.iai.89f
+(i1ri,i1wi1,i1ai1,qd,qdd,t)
+Func
+Local  i1wi1,qd,e,j,iri1,t
+[[0,0,1]]\t\\->\e
+If t="r" Then
+0\->\j
+Else
+1\->\j
+EndIf
+Return  i1ri\t\*(i1ai1+(qdd*e+qd*crossP(i1wi1,e))*(1-j))
+EndFunc
+
+\STOP92\

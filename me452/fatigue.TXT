@@ -1,0 +1,737 @@
+\START92\
+\COMMENT=
+\NAME=fatigue
+\FILE=me452.fatigue.89p
+()
+Prgm
+ClrIO
+Disp  ""
+ClrIO
+Lbl  top
+Lbl  menu1
+Toolbar
+Title  "Quit",quit
+Title  "\sigma\"
+Item  "2D Principle \sigma\",ps2
+Item  "3D Principle \sigma\",ps3
+Item  "\sigma\[nom]\->\\sigma\",sns
+Item  "Safety",safe
+Item  "M,T\->\\sigma\,\tau\",mtst
+Item  "Sut\->\Ssu & Sy\->\Ssy",stt
+Title  "Strenth"
+Item  "H[b]\->\S[ut]",hb
+Item  "S[ut]\->\S'[e]",ute
+Title  "F.S."
+Item  "Method",fsm
+Item  "\sigma\'",sp
+Item  "b",fsb
+Item  "f",fsf
+Item  "a",fsa
+Item  "S[f]",fssf
+Item  "N",fsn
+Item  "Solve For...",sfor
+Title  "Sensitivity"
+Item  "Method",kfm
+Item  "K[t]\->\K[f]",ktkf
+Item  "K[f]\->\K[f](10\^3\)",kfkf3
+Item  "K[f]\->\K[f](n)",kfkfn
+Item  "Notch Sensitivity",ns
+Title  "Marin"
+Item  "K[a]: Surface",ka
+Item  "K[b]: Size",kb
+Item  "K[c]: Load",kc
+Item  "K[d]: Temp.",kd
+Item  "K[e]: Reliability",ke
+Item  "K[f]: Misc",kf
+Title  "Alt. \sigma\"
+Item  "\sigma\[a],\sigma\[m]",sasm
+Item  "\sigma\[m]<0",smltz
+Item  "Modified Goodman",mgood
+Item  "Gerber",mgerber
+Item  "ASME",asme
+EndTBar
+\(C)\
+Lbl  zzt
+ClrIO
+
+Goto  top
+\(C)\
+Lbl  c10cat
+ClrIO
+Disp  "R[d]=0.90"
+Disp  "Eqn. 11-3 (pg. 565)"
+Input  "F[desired]=",fd
+Input  "x[d]=",xd
+ClrIO
+PopUp  {"Ball","Roller"},a:If a=1 Then:3\->\a:Else:10/3\->\a:EndIf:
+Disp  "C[10]=F[d]*(x[d])^(1/a)"
+Disp  "C[10]="&string(approx(fd*xd^(1/a)))
+Goto  top
+\(C)\
+Lbl  fafrfe
+ClrIO
+Disp  "Combined loading (pg. 569)"
+Input  "F[axial]=",fa
+Input  "F[radial]=",fr
+Input  "C[0]=",c0
+fa/c0\->\x
+If x<0.014 Then
+0.014\->\x
+EndIf
+DelVar  a
+PopUp  {"Inner Ring Rot.","Outter Ring Rot.","Self-Aligning"},a
+If a=2 Then
+1.2\->\v
+Else
+1\->\v
+EndIf
+ClrIO
+Disp  "From Table 11-1 (pg. 570)"
+\(-)\10.436287570904*x^4+13.921915622481*x^3+\(-)\6.8858538900814*x^2+1.799753415453*x+0.17284008041084\->\e
+Disp  "F[a]/C[0]="&string(approx(round(x,3)))
+Disp  "e="&string(approx(round(e,2))),"F[a]/(V*F[r])="&string(approx(round(fa/(v*fr),3))),"      (approx see pg 570)"
+Pause  
+ClrIO
+If fa/(v*fr)\<=\e Then
+Disp  "F[a]/(V*F[r])\<=\e"
+1\->\x
+0\->\y
+Else
+Disp  "F[a]/(V*F[r])>e"
+0.56\->\x
+If fa/c0<0.014 Then
+14\->\z
+Else
+fa/c0*1000\->\z
+EndIf
+1.3896762339645\ee\\(-)\010*(z^4-1305.2743201568*z^3+595848.68012783*z^2-118475506.05633*z+17589930294.984)\->\y
+EndIf
+Disp  "X="&string(approx(round(x,2)))
+Disp  "Y="&string(approx(round(y,2)))
+Disp  "Table 11-1 (pg. 570)"
+Pause  
+Goto  xyfecalc
+Lbl  xyfe
+ClrIO
+Input  "F[axial]=",fa
+Input  "F[radial]=",fr
+Input  "X=",x
+Input  "Y=",y
+ClrIO
+PopUp  {"Inner Ring Rot.","Outter Ring Rot.","Self-Aligning"},a
+If a=2 Then
+1.2\->\v
+Else
+1\->\v
+EndIf
+Lbl  xyfecalc
+ClrIO
+Disp  "F[e]=X*V*F[r]+Y*F[a]"
+Disp  "F[e]="&string(approx(round(x,2)))&"*"&string(approx(round(v,2)))&"*"&string(approx(round(fr,2)))&"+"&string(approx(round(y,2)))&"*"&string(approx(round(fa,2)))
+Disp  "F[e]="&string(approx(round(x*v*fr+y*fa,3)))
+Disp  
+Goto  top
+\(C)\
+Lbl  c102b
+ClrIO
+PopUp  {"Ball","Cylind. Roller"},bt
+If bt=1 Then
+Input  "C[10] (kN)=",x
+ClrIO
+Disp  "02-Series Deep-Groove & ","Angular-Contact Ball Brng","Table 11-2 (pg. 571)"
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\1.4874324978766\ee\\(-)\007*x^4+3.096544763568\ee\\(-)\005*x^3+\(-)\0.0074923435856052*x^2+1.4816181203303*x+3.189390149411))
+Else
+PopUp  {"02-Series","03-Series"},a
+Input  "C[10] (kN)=",x
+ClrIO
+Disp  "02/03-Series Cylindrical","        Roller Bearings","Table 11-3 (pg. 572)"
+If a=1 Then
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\2.3310221266159\ee\\(-)\008*x^4+2.1801584165101\ee\\(-)\005*x^3+\(-)\0.0071570611623451*x^2+1.2514970068375*x+3.660481213309))
+Else
+Disp  "Bore (mm)\>=\"&string(approx(\(-)\4.3297731447135\ee\\(-)\010*x^4+1.0257049101902\ee\\(-)\006*x^3+\(-)\0.00093941389775544*x^2+0.48824804149965*x+13.689230464954))
+EndIf
+
+EndIf
+
+
+Goto  top
+\(C)\
+Lbl  c10
+ClrIO
+Disp  "Eqn. 11-6 (pg. 567)"
+Disp  "Eqn. 11-7 (pg. 568)"
+Input  "F[desired]=",fd
+Input  "x[d]=",xd
+Input  "R[d]=",rd
+ClrIO
+Disp  "Table pg 601"
+Input  "x[0]=",x0
+Input  "\theta\=",\theta\
+Input  "b=",b
+ClrIO
+PopUp  {"Ball","Roller"},a
+If a=1 Then
+3\->\a
+Else
+10/3\->\a
+EndIf
+ClrIO
+Disp  "Eqn. 11-6"
+Disp  "C[10]="&string(approx(fd*(xd/(x0+(\theta\-x0)*(ln(1/rd))^(1/b)))^(1/a)))
+Disp  "Eqn. 11-7"
+Disp  "C[10]="&string(approx(fd*(xd/(x0+(\theta\-x0)*(1-rd)^(1/b)))^(1/a)))
+Goto  top
+\(C)\
+Lbl  xdl
+ClrIO
+Disp  "pg. 565"
+Disp  "x[d]=L/L[10]"
+Disp  "L[10] on pg 601"
+Input  "L[10] (revs)=",l10
+Input  "L[d] (hours)=",l
+Input  "n[d] (rpm)=",n
+ClrIO
+Disp  "x[d]=L/L[10]"
+
+Disp  "x[d]="&string(approx(60*l*n/l10))
+Goto  top
+\(C)\
+Lbl  lir
+ClrIO
+Disp  "pg. 568"
+Disp  "L=60*L[d]*n[d]"
+Input  "L[d] (hours)=",l
+Input  "n[d] (rpm)=",n
+ClrIO
+Disp  "L=60*L[d]*n[d]"
+Disp  "L="&string(approx(60*l*n))&" revs."
+Goto  top
+\(C)\
+Lbl  ns
+ClrIO
+Disp  "K[f]=1+q*(K[t]-1)"
+Disp  "K[fs]=1+q[shear]*(K[ts]-1)"
+Disp  "pg. 336-337"
+Goto  top
+\(C)\
+Lbl  stt
+ClrIO
+Disp  "Shear Ultimate Strength"
+Disp  "S[su]=.67*S[ut]  (pg. 361"
+Disp  "Shear Yield Strength"
+Disp  "S[sy]=.577*S[y]  (pg. 264"
+Goto  top
+\(C)\
+Lbl  asme
+ClrIO
+Input  "\sigma\[a]=",sa
+Input  "\sigma\[m]=",sm
+Input  "S[e]=",se
+Input  "S[y]=",syy
+ClrIO
+Disp  "Pg. 351 Table 7-11"
+Disp  "n[f]=","  \root\(1/((\sigma\a/Se)\^2\+(\sigma\m/Sy)\^2\))"
+Disp  "n[f]="&string(approx(\root\(1/((sa/se)^2+(sm/syy)^2))))
+Goto  top
+\(C)\
+Lbl  mgerber
+ClrIO
+Input  "\sigma\[a]=",sa
+Input  "\sigma\[m]=",sm
+Input  "S[ut]=",sut
+Input  "S[e]=",se
+ClrIO
+Disp  "Pg. 350 Table 7-10"
+Disp  "n[f]=1/2*(Sut/\sigma\m)\^2\*\sigma\a/Se*","[\(-)\1+\root\(1+(2\sigma\m*Se/Sut*\sigma\a)]\^2\"
+Disp  "n[f]="&string(approx(1/2*(sut/sm)^2*sa/se*(\(-)\1+\root\(1+(2*sm*se/(sut*sa))^2))))
+Goto  top
+\(C)\
+Lbl  mgood
+ClrIO
+Disp  "pg 350"
+Input  "\sigma\[a]=",sa
+Input  "\sigma\[m]=",sm
+Input  "S[e]=",se
+Input  "S[ut] (S[su] for \tau\)=",sut
+ClrIO
+Disp  "Pg. 350 Table 7-9"
+Disp  "n[f]=1/","    (\sigma\[a]/S[e]+S[m]/S[ut])"
+Disp  "n[f]="&string(approx(se*sut/(sa*sut+sm*se)))
+Goto  top
+\(C)\
+Lbl  smltz
+ClrIO
+Disp  "S[a]=S[e]"
+Disp  "N[f]=S[a]/(\sigma\[a])"
+
+Goto  top
+\(C)\
+Lbl  sasm
+ClrIO
+Input  "\sigma\[1,nom]=",s2
+Input  "\sigma\[2,nom]=",s1
+ClrIO
+min({s1,s2})\->\smin
+max({s1,s2})\->\smax
+Disp  "\sigma\[m,nom]="&string((smax+smin)/2)
+Disp  "\sigma\[a,nom]="&string((smax-smin)/2)
+Disp  "Remember to apply K"
+Goto  top
+\(C)\
+Lbl  mtst
+ClrIO
+Disp  "\sigma\=\(-)\M*y/I"
+Disp  "\sigma\=\(-)\32*M/(\pi\*d\^3\)"
+Disp  "\tau\=T*c/J"
+Disp  "\tau\=16*T/(\pi\*d\^3\)"
+Disp  "I=1/12*b*h^3"
+Goto  top
+\(C)\
+Lbl  kfkfn
+ClrIO
+Input  "K[f]=",kf
+1-(kf-1)*(0.18-0.43*10^(\(-)\2)*sut+0.45*10^(\(-)\5)*sut^2)\->\kf3
+Input  "N=",n
+Input  "S[ut]=",sut
+ClrIO
+Disp  "K[f]("&string(n)&")="&string(approx(kf3^2/kf*n^(1/3*log(kf/kf3))))
+Goto  top
+\(C)\
+Lbl  kfkf3
+ClrIO
+Input  "K[f]=",kf
+Input  "S[ut]=",sut
+ClrIO
+Disp  "K[f](10\^3\)="&string(approx(1-(kf-1)*(0.18-0.43*10^(\(-)\2)*sut+0.45*10^(\(-)\5)*sut^2)))
+Goto  top
+\(C)\
+Lbl  safe
+ClrIO
+Disp  "N[f]=S[e]/\sigma\"
+Disp  "N[f]=S[e]/(K[f]*F/A)"
+Disp  "S[e]=S'[e]/K[f]"
+Goto  top
+\(C)\
+Lbl  sns
+ClrIO
+Disp  "\sigma\=K[f]*\sigma\[nom]"
+Input  "K[f]=",kf
+Input  "\sigma\[nom]=",sn
+ClrIO
+Disp  "\sigma\=K[f]*\sigma\[nom]"
+Disp  "\sigma\="&string(kf*sn)
+Goto  top
+\(C)\
+Lbl  kfm
+ClrIO
+Disp  "K[t]:stress concentration"
+Disp  "K[f]:fatigue stress..."
+Disp  "1. Find K[t]"
+Disp  "2. Find \root\a"
+Disp  "3. Find \root\r"
+Disp  "4. Find K[f]"
+Disp  "5. \sigma\[nom]\->\\sigma\"
+Goto  top
+\(C)\
+Lbl  ktkf
+ClrIO
+PopUp  {"Traverse Hole","Shoulder","Groove"},c
+PopUp  {"kpsi","MPa"},b
+Input  "S[ut]=",sut
+If c=1 Then
+If b=1 Then
+(5/sut)^2\->\a
+Else
+(174/sut)^2\->\a
+EndIf
+ElseIf c=2 Then
+If b=1 Then
+(4/sut)^2\->\a
+Else
+(139/sut)^2\->\a
+EndIf
+Else
+If b=1 Then
+(3/sut)^2\->\a
+Else
+(104/sut)^2\->\a
+EndIf
+EndIf
+ClrIO
+Disp  "In in/mm"
+Input  "r=",r
+Input  "K[t]",kt
+kt/(1+2*(kt-1)/kt*(\root\(a)/(\root\(r))))\->\kf
+ClrIO
+Disp  "K[f]="&string(approx(kf))
+Disp  "K[t]="&string(approx(kt))
+Disp  "a="&string(approx(a))
+Disp  "r="&string(approx(r))
+Goto  top
+\(C)\
+Lbl  fsn
+ClrIO
+Disp  "N=(\sigma\[a]/a)^(1/b)"
+Input  "\sigma\[a]=",sa
+Input  "a=",a
+Input  "b=",b
+ClrIO
+Disp  "N=(\sigma\[a]/a)^(1/b)"
+Disp  "N="&string(approx((sa/a)^(1/b)))
+
+Goto  top
+\(C)\
+Lbl  sfor
+ClrIO
+PopUp  {"S[f]","N"},sf
+Input  "\sigma\'[F]=",sfp
+Input  "S[e]=",se
+Input  "N[e] 1\ee\6 (typ.)=",ne
+If sf=1 Then
+Input  "N=",n
+sfp^2*(2000^(\(-)\ln(sfp/se)/(ln(2*ne))))^2*n^(\(-)\ln(sfp/se)/(ln(2*ne)))/se\->\sf
+ClrIO
+Disp  "S[f]="&string(approx(sf))
+Else
+Input  "S[f]=",sf
+DelVar  n
+(sfp^2)^(ln(2)/(ln(sfp/se)))*((sfp/se)^(2*ln(1/2000)/(ln(2*ne)))/(se*sf))^(ln(ne)/(ln(sfp/se))+ln(2)/(ln(sfp/se)))*ne^(ln(sfp^2)/(ln(sfp/se)))\->\n
+ClrIO
+Disp  "N="&string(approx(n))
+EndIf
+Goto  top
+\(C)\
+Lbl  fssf
+ClrIO
+Disp  "S[f]=a*N^b"
+Input  "a=",a
+Input  "N=",n
+Input  "b=",b
+ClrIO
+Disp  "S[f]=a*N^b"
+Disp  "S[f]="&string(approx(a*n^b))
+Goto  top
+\(C)\
+Lbl  fsa
+ClrIO
+Disp  "a=(f*S[ut])\^2\/S[e]"
+Input  "f=",f
+Input  "S[ut]=",sut
+Input  "S[e]=",se
+ClrIO
+Disp  "a=(f*S[ut])\^2\/S[e]"
+Disp  "a="&string(approx((f*sut)^2/se))
+Goto  top
+\(C)\
+Lbl  fsf
+ClrIO
+Disp  "f=\sigma\'[F]/S[ut]*(2\ee\3)^b"
+Input  "\sigma\'[F]=",sf
+Input  "S[ut]=",sut
+Input  "b=",b
+ClrIO
+Disp  "f=\sigma\'[F]/S[ut]*(2\ee\3)^b"
+Disp  "f="&string(approx(sf/sut*(2000.)^b))
+
+Goto  top
+\(C)\
+Lbl  fsb
+ClrIO
+Disp  "b=\(-)\log(\sigma\'[F]/S[e])","             /log(2*N[e])"
+Input  "\sigma\'[F]=",sf
+Input  "S[e]=",se
+Disp  "N[e]=1\ee\6 (typ.)"
+Input  "N[e]=",n
+ClrIO
+Disp  "b=\(-)\log(\sigma\'[F]/S[e])","             /log(2*N[e])"
+Disp  "b="&string(approx(\(-)\log(sf/se)/(log(2*n))))
+Goto  top
+\(C)\
+Lbl  fsm
+ClrIO
+Disp  "1. Find \sigma\'[F]  (F4:2)"
+Disp  "2. Find S'[ut] (F3:2)"
+Disp  "3. Find b      (F4:3)"
+Disp  "4. Find f      (F4:4)"
+Disp  "5. Find a      (F4:5)"
+Disp  "6. Find S[f]   (F4:6)"
+Goto  top
+\(C)\
+
+Lbl  sp
+ClrIO
+Disp  "\sigma\'[f]=\sigma\0*\epsilon\^m"
+Disp  "---------"
+Disp  "Steels w/H[b]\<=\500"
+Disp  "\sigma\'[f]=S[ut]+50 ksi"
+Disp  "\sigma\'[f]=S[ut]+345 MPa"
+Goto  top
+\(C)\
+Lbl  ute
+ClrIO
+Disp  "Steel only       (pg. 325)","","",""
+Disp  "Al See pg 1001"
+PopUp  {"kpsi","MPa"},a
+ClrIO
+If a=1 Then
+Input  "S[ut] (kpsi)=",sut
+If sut\<=\212 Then
+Disp  "S'[e]=0.504*S[ut]"
+Disp  "S'[e]="&string(0.504*sut)&" kpsi"
+Else
+Disp  "S'[e]=107 kpsi"
+EndIf
+Else
+Input  "S[ut] (MPa)=",sut
+If sut\<=\1460 Then
+Disp  "S'[e]=0.504*S[ut]"
+Disp  "S'[e]="&string(0.504*sut)&" MPa"
+Else
+Disp  "S'[e]=740 MPa"
+EndIf
+
+EndIf
+
+Goto  top
+\(C)\
+Lbl  ka
+ClrIO
+PopUp  {"Ground","Machine/cold-drawn","Hot-rolled","As-forged"},f
+Input  "S[ut]=",sut
+PopUp  {"kpsi","MPa"},u
+If u=1 Then
+If f=1 Then
+1.34\->\a
+\(-)\0.085\->\b
+ElseIf f=2 Then
+2.7\->\a
+\(-)\0.265\->\b
+ElseIf f=3 Then
+14.4\->\a
+\(-)\0.718\->\b
+Else
+39.9\->\a
+\(-)\0.995\->\b
+EndIf
+Else
+If f=1 Then
+1.58\->\a
+\(-)\0.085\->\b
+ElseIf f=2 Then
+4.51\->\a
+\(-)\0.265\->\b
+ElseIf f=3 Then
+57.7\->\a
+\(-)\0.718\->\b
+Else
+272\->\a
+\(-)\0.995\->\b
+EndIf
+EndIf
+ClrIO
+Disp  "k[a]=a*S[ut]^b"
+Disp  "a="&string(a)
+Disp  "b="&string(b)
+Disp  "k[a]="&string(a)&"*"&string(sut)&"^"&string(b)
+Disp  "k[a]="&string(approx(a*sut^b))
+Goto  top
+\(C)\
+Lbl  kb
+ClrIO
+Disp  "k[b]: pg. 329"
+PopUp  {"Rotating","Non-Rotating","Pure Axial"},a
+If a=1 Then
+ClrIO
+Input  "d=",d
+PopUp  {"in","mm"},a
+Lbl  fsht
+ClrIO
+If a=1 Then
+If d<0.11 Then
+Disp  "Too small","See pg. 329"
+EndIf
+If d>10 Then
+Disp  "Too large","See pg. 329"
+EndIf
+If 0.11\<=\d and d\<=\2 Then
+Disp  "k[b]=(d/(.3))^(\(-)\0.107)"
+Disp  "k[b]="&string((d/(0.3))^(\(-)\0.107))
+EndIf
+If 2<d and d\<=\10 Then
+Disp  "k[b]=0.91*d^(\(-)\0.157)"
+Disp  "k[b]="&string(0.91*d^(\(-)\0.157))
+EndIf
+Else
+If d<2.79 Then
+Disp  "Too small","See pg. 329"
+EndIf
+If d>254 Then
+Disp  "Too large","See pg. 329"
+EndIf
+If 2.79\<=\d and d\<=\51 Then
+Disp  "k[b]=(d/(7.62))^(\(-)\0.107)"
+Disp  "k[b]="&string((d/(7.62))^(\(-)\0.107))
+EndIf
+If 51<d and d\<=\254 Then
+Disp  "k[b]=1.51*d^(\(-)\0.157)"
+Disp  "k[b]="&string(1.51*d^(\(-)\0.157))
+EndIf
+EndIf
+ElseIf a=2 Then
+PopUp  {"Circular","Rectangle","I-beam","U-beam"},c
+ClrIO
+If c=1 Then
+Input  "d=",d
+ClrIO
+PopUp  {"in","mm"},a
+If a=1 Then
+" in"\->\sfx
+Else
+" mm"\->\sfx
+EndIf
+ClrIO
+Disp  "A[.95\sigma\]=.01046*d^2"
+Disp  "d[e]=0.370*d"
+Disp  "d[e]="&string(0.37*d)&sfx
+0.37*d\->\d
+Pause  
+ClrIO
+Goto  fsht
+ElseIf c=2 Then
+ClrIO
+Input  "h=",h
+Input  "b=",b
+PopUp  {"in","mm"},a
+If a=1 Then
+" in"\->\sfx
+Else
+" mm"\->\sfx
+EndIf
+ClrIO
+Disp  "A[.95\sigma\]=0.05*h*b"
+Disp  "d[e]=0.808*\root\(h*b)"
+Disp  "d[e]="&string(approx(0.808*\root\(h*b)))&sfx
+0.808*\root\(h*b)\->\d
+Pause  
+ClrIO
+Goto  fsht
+Else
+Disp  "See page 331."
+EndIf
+
+Else
+Disp  "Pure Axial Loading"
+Disp  "k[b]=1"
+EndIf
+Goto  top
+\(C)\
+Lbl  kc
+ClrIO
+Disp  "k[c]=1 bending"
+Disp  "k[c]=.85 axial"
+Disp  "k[c]=.59 pure torsion"
+Goto  top
+\(C)\
+Lbl  kc
+ClrIO
+Disp  ""
+Goto  top
+\(C)\
+Lbl  kd
+ClrIO
+Input  "T=",t
+PopUp  {"\o\C","\o\F"},a
+If a=1 Then
+t*9/5+32\->\t
+EndIf
+Disp  "k[d]=",round(\(-)\5.95\ee\\(-)\013*t^4+1.04\ee\\(-)\009*t^3-1.15\ee\\(-)\006*t^2+0.000432*t+0.975,3)
+
+Goto  top
+\(C)\
+Lbl  ke
+ClrIO
+PopUp  {"50%","90%","95%","99%","99.9%","99.99%","99.999%","99.999%"},a
+{0,1.288,1.645,2.326,3.091,3.719,4.265,4.753}\->\za
+Disp  "k[e]=1-0.08*z[a]"
+Disp  "z[a]="&string(za[a])
+Disp  "k[e]="&string(round(1-0.08*za[a],3))
+Goto  top
+\(C)\
+Lbl  kf
+ClrIO
+Disp  ""
+Goto  top
+\(C)\
+Lbl  hb
+ClrIO
+Input  "H[b]=",hb
+\(C)\If 200\<=\hb and hb\<=\450 Then
+0.495*hb\->\sute
+3.41*hb\->\sutm
+\(C)\Else
+\(C)\.5*hb\->\sute
+\(C)\3.45*hb\->\sutm
+\(C)\EndIf
+ClrIO
+Disp  "S[ut]="&string(round(approx(sute),3))&" kpsi"
+Disp  "S[ut]="&string(round(approx(sutm),3))&" MPa"
+\(C)\If 200>hb and hb<450 Then
+\(C)\Disp "\^+\.03*H[b]="&string(round(approx(sutm),3))&" kpsi"
+\(C)\Disp "\^+\.21*H[b]="&string(round(approx(sutm),3))&"MPa"
+\(C)\EndIf
+Disp  ""
+Disp  "For steels, see pg. 80"
+Goto  top
+\(C)\
+Lbl  ps2
+ClrIO
+Input  "\sigma\[x]=",\sigma\1
+Input  "\sigma\[y]=",\sigma\2
+Input  "\tau\[xy]=",\tau\xy
+(\sigma\1+\sigma\2)/2+\root\(((\sigma\1-\sigma\2)/2)^2+\tau\xy^2)\->\\sigma\a
+(\sigma\1+\sigma\2)/2-\root\(((\sigma\1-\sigma\2)/2)^2+\tau\xy^2)\->\\sigma\b
+\root\(((\sigma\1-\sigma\2)/2)^2+\tau\xy^2)\->\\tau\1
+ClrIO
+Disp  "\sigma\1="&string(\sigma\a)
+Disp  "\sigma\2="&string(\sigma\b)
+Disp  "\tau\1="&string(\tau\1)
+DelVar  \sigma\1,\sigma\2,\tau\xy,\sigma\a,\sigma\b,\tau\1
+Goto  top
+Lbl  ps3
+ClrIO
+Input  "\sigma\[x]=",\sigma\1
+Input  "\sigma\[y]=",\sigma\2
+Input  "\tau\[xy]=",\tau\xy
+(\sigma\1+\sigma\2)/2+\root\(((\sigma\1-\sigma\2)/2)^2+\tau\xy^2)\->\\sigma\a
+(\sigma\1+\sigma\2)/2-\root\(((\sigma\1-\sigma\2)/2)^2+\tau\xy^2)\->\\sigma\b
+\root\(((\sigma\1-\sigma\2)/2)^2+\tau\xy^2)\->\\tau\1
+If \sigma\a>0 and \sigma\b<0 Then
+\sigma\a\->\\sigma\1
+0\->\\sigma\2
+\sigma\b\->\\sigma\3
+ElseIf \sigma\a>0 and \sigma\b>0 Then
+\sigma\a\->\\sigma\1
+\sigma\b\->\\sigma\2
+0\->\\sigma\3
+Else
+0\->\\sigma\1
+\sigma\a\->\\sigma\2
+\sigma\b\->\\sigma\3
+EndIf
+ClrIO
+Disp  "\sigma\1="&string(\sigma\1)
+Disp  "\sigma\2="&string(\sigma\2)
+Disp  "\sigma\3="&string(\sigma\3)
+Disp  "\tau\[max]="&string((\sigma\1-\sigma\3)/2)
+DelVar  \sigma\1,\sigma\2,\sigma\3,\tau\xy,\sigma\a,\sigma\b,\tau\1
+\(C)\\sigma\^3-(\sigma\1+\sigma\2+\sigma\3)*\sigma\^2+(\sigma\1*\sigma\2+\sigma\1*\sigma\3+\sigma\2*\sigma\3-\tau\xy^2-\tau\yz^2-\tau\zx^2)*\sigma\-(\sigma\1*\sigma\2*\sigma\3+2*\tau\xy*\tau\yz*\tau\zx-\sigma\1*\tau\yz^2-\sigma\2*\tau\zx^2-\sigma\3*\tau\xy^2)
+Goto  top
+\(C)\
+
+Goto  top
+Lbl  quit
+ClrIO
+DispHome
+EndPrgm
+
+\STOP92\

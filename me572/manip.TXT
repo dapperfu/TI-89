@@ -1,0 +1,14 @@
+\START92\
+\COMMENT=
+\NAME=manip
+\FILE=me572.manip.89p
+(j)
+Prgm
+local n,jtop,b,binv,\phi\,r,ax,by,cz,\beta\
+\(C)\ Manipulability
+min({colDim(j),3})\->\n
+subMat(j,1,1,n,n)\->\jtop
+jtop*jtop\t\\->\b
+manip2(b)
+EndPrgm
+\STOP92\

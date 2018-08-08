@@ -1,0 +1,20 @@
+\START92\
+\COMMENT=
+\NAME=rank
+\FILE=me575.rank.89f
+(m)
+Func
+Local  m,i,n,s,r
+0\->\r
+rref(m)\->\m
+rowDim(m)\->\n
+For  i,1,n
+sum(mat\to\list(subMat(m,i,1,i)))\->\s
+If s\!=\0 Then
+r+1\->\r
+EndIf
+EndFor
+Return  r
+EndFunc
+
+\STOP92\

@@ -1,0 +1,360 @@
+\START92\
+\COMMENT=
+\NAME=me365
+\FILE=main.me365.89p
+()
+Prgm
+Disp  ""
+ClrIO
+Lbl  top
+Toolbar
+Title  "Quit",quit
+Title  "Cal."
+Item  "Def.",def
+Item  "Hysteresis",hy
+Item  "Resolution",res
+Title  "ADC"
+Item  "Prob.",pro
+Item  "Q",q
+Item  "V\->\Q",vtq
+Item  "Q\->\V",qtv
+Item  "T[a],F,n",tfn
+Item  "True Input",ti
+Item  "MinBitsNeeded",mbn
+Title  "Stat."
+Item  "Gauss",gauss
+Item  "\mu\ & \sigma\",mx
+Item  "pdf",pdf
+Item  "C.I.",ci
+Item  "Prop. of Err",prop
+Item  "Least\^2\",ls
+Title  "Sys."
+Item  "\diff\ & \integral\",id
+Item  "y[ss]",yss
+Item  "y[trans]",yt
+Title  "ODE"
+Item  "1st & 2nt",fso
+Item  "Characteristics",cha
+Item  "1st ID",fid
+Item  "2nt ID",sid
+Item  "2nt ID,2",sidt
+Title  "FLO"
+Item  "Filters",fil
+Item  "Loading",loa
+Item  "Op-Amp",oa
+Item  "Reduce Loading",rl
+Title  "Per."
+Item  "Frequency",frequ
+Item  "A[k] & B[k]",akbk
+Item  "M[k] & \theta\[k]",mk\theta\k
+Item  "M[k] & \psi\[k]",mkyk
+Item  "Complex Form",comfo
+Item  "Complex Form",comfo2
+Item  "Amp. Spectra",asps
+Item  "Odd & Even",oe
+Title  "StrainG"
+Item  "Equation",sge
+EndTBar
+\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\
+Lbl  tx
+ClrIO
+
+Goto  top
+\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\\(C)\
+Lbl  sge
+ClrIO
+Disp  "(Z1*Z3-Z2*Z4)/","((Z1+Z4)(Z2+Z3))"
+Goto  top
+\(C)\
+Lbl  oe
+ClrIO
+Disp  "Odd: No cos() Terms"
+Disp  "Even: No sin() Terms"
+Goto  top
+\(C)\
+Lbl  comfo2
+ClrIO
+Disp  "|c[k]|=1/2*M[k]"
+Disp  "\/_\c[k]=\(-)\\theta\[k]"
+Disp  "2*real(c[k])"
+Disp  "\(-)\2*imag(c[k])"
+Goto  top
+\(C)\
+Lbl  comfo
+ClrIO
+Disp  "x(t)=c[0]+","\Sigma\(c[k]*\e\^(\i\k\omega\t),k,1,\infinity\)+","\Sigma\(c[k]*\e\^(\i\k\omega\t),k,\(-)\1,\(-)\\infinity\)"
+Disp  "c[k]=1/T*\integral\(x*\e\^(\(-)\\i\k\omega\t),t)"
+Goto  top
+\(C)\
+Lbl  asps
+ClrIO
+Disp  "Amplitude & Phase Spectra"
+Disp  "M[k] vs. \omega\[k]=k*\omega\[1]"
+Disp  "&"
+Disp  "\theta\[k] vs. \omega\[k]=k*\omega\[1]"
+Disp  "\theta\[k] is in the range of","\^+\\pi\ NOT \^+\\pi\/2"
+Goto  top
+\(C)\
+Lbl  mkyk
+
+ClrIO
+Disp  "x(t)=A[0]/2+","\Sigma\(M[k]*sin(k*\omega\1*t+\psi\[k])"
+Disp  "M[k]=\root\(A[k]\^2\+B[k]\^2\)"
+Disp  "\psi\[k]=tan\^-1\(A[k]/B[k])"
+Disp  "A[k]=M[k]*sin(\psi\[k])"
+Disp  "B[k]=M[k]*cos(\psi\[k])"
+Goto  top
+\(C)\
+Lbl  mk\theta\k
+ClrIO
+Disp  "x(t)=\->\A[0]/2+","\Sigma\(M[k]*cos(k*\omega\1*t-\theta\[k])"
+Disp  "M[k]=\root\(A[k]\^2\+B[k]\^2\)"
+Disp  "\theta\[k]=tan\^-1\(B[k]/A[k])"
+Disp  "A[k]=M[k]*cos(\theta\[k])"
+Disp  "B[k]=M[k]*sin(\theta\[k])"
+Goto  top
+\(C)\
+Lbl  akbk
+ClrIO
+Disp  "x(t)=","A[0]/2+\Sigma\(A[k]*cos(k*\omega\1*t)","      +\Sigma\(B[k]*sin(k*\omega\1*t)"
+Disp  "A[0]=2/T*\integral\(x)"
+Disp  "A[k]=2/T*\integral\(x*cos(k*\omega\1*t)"
+Disp  "B[k]=2/T*\integral\(x*sin(k*\omega\1*t)"
+Goto  top
+\(C)\
+Lbl  frequ
+ClrIO
+Disp  "Fundamental Frequency:"
+Disp  "\omega\[1]=2\pi\*f[1]=2\pi\/T"
+Disp  "k^th requency"
+Disp  "\omega\[k]=2\pi\k*f[1]=2\pi\k/T"
+Goto  top
+\(C)\
+Lbl  rl
+ClrIO
+Disp  "Passive:choose R2>>R1"
+Disp  "Active: Use Volt follower"
+Goto  top
+\(C)\
+Lbl  oa
+ClrIO
+Disp  "High\->\Z[out],Low\->\Z[in]"
+Disp  "A\->\very large,1\ee\5V/V"
+Disp  "Input impedance is just","R[in]"
+Goto  top
+\(C)\
+Lbl  loa
+ClrIO
+Disp  "L[i,i+1]=Z[in,i+1]/","(Z[in,i+1]+Z[out,i])"
+Disp  "Z[in]\->\Look in"
+Disp  "Z[out]\->\Look from out"
+Disp  "Short all V"
+Goto  top
+\(C)\
+Lbl  fil
+ClrIO
+Disp  "LP=K/(1+\i\RC\omega\)"
+Disp  "HP=RC\i\\omega\/(1+\i\RC\omega\)"
+Disp  "BP=LP*HP"
+Disp  "BS=LP+HP"
+Disp  "\omega\[c]=1/\tau\ 1st order"
+Goto  top
+\(C)\
+Lbl  sidt
+ClrIO
+Disp  "T[rise]=(\pi\-\beta\)/\omega\[d]"
+Disp  "\beta\=tan\^-1\(\root\(1-\zeta\\^2\)/(\zeta\))"
+Disp  "%OS=100*\e\^(\(-)\\pi\*\zeta\/\root\(1-\zeta\\^2\))"
+Disp  "2% T[s]=4/(\zeta\*\omega\[n])"
+Disp  "1% T[s]=5/(\zeta\*\omega\[n])"
+Goto  top
+\(C)\
+Lbl  sid
+ClrIO
+Disp  "T[d]=2\pi\/\omega\[d]"
+Disp  "\omega\[d]=\omega\[n]\root\(1-\zeta\\^2\)"
+Disp  "\zeta\=ln((yi-yf)/(y[i+n]-yf))","             *1/(2*\pi\*n)"
+Disp  "\zeta\=1/\pi\*ln((yf-y0)/OS)"
+Disp  "OS=Peak[1]-yf"
+Goto  top
+\(C)\
+Lbl  fid
+ClrIO
+Disp  "y=yf+(y0-yf)\e\^(\(-)\t/\tau\)"
+Disp  "ln((yf-y0)/(yf-y)), m=\tau\\^-1\"
+Disp  "0\<=\\phi\\<=\\(-)\90"
+Goto  top
+\(C)\
+Lbl  cha
+ClrIO
+Disp  "Peak @ \omega\[res]"
+Disp  "\omega\[res]=\root\(1+2\zeta\^2)*\omega\[n]"
+Disp  "if \zeta\>1/2, no peak"
+Disp  "If K>0"
+Disp  "\phi\=\(-)\tan\^-1\(2\zeta\\omega\[n]\omega\/","              (\omega\[n]\^2\-\omega\\^2\))"
+Goto  top
+\(C)\
+Lbl  fso
+ClrIO
+Disp  "\tau\*y'+y=K*x"
+Disp  "y''/\omega\^2+2*\zeta\*y'/\omega\+y=K*x"
+Disp  "y=y[ss]+y[transient]"
+Disp  "Roll off=20dB*order"
+Goto  top
+\(C)\
+Lbl  yt
+ClrIO
+
+Goto  top
+\(C)\
+Lbl  yss
+ClrIO
+Disp  "x(t)=A*sin(\omega\t)"
+Disp  "x(t)=\e\^(\i\\omega\t)"
+Disp  "y(t)=T1*\e\^(\i\\omega\t)"
+Disp  "Solve for T1"
+Disp  "y[ss]=A|T1|*sin(\omega\t+\/_\T1)"
+Goto  top
+\(C)\
+Lbl  id
+ClrIO
+Disp  "\diff\(\e\^(\i\\omega\t))/\diff\t=\i\\omega\\e\^(\i\\omega\t)"
+Disp  "\integral\(\e\^(\i\\omega\t))=1/(\i\\omega\)"
+Goto  top
+\(C)\
+Lbl  ls
+ClrIO
+Disp  "y=Aa+n"
+Disp  "f=a0+a1*x"
+Disp  "Derivate w/each var"
+Disp  "Dev in fit"
+Disp  "\sigma\[n]=1/[N-2]*\Sigma\(n[i])\^2\"
+Disp  "2\o\ of free"
+Disp  "v=N-2"
+Goto  top
+\(C)\
+Lbl  prop
+ClrIO
+Disp  "y=f(a,b)"
+Disp  "a\^+\\Delta\a,b\^+\\Delta\b,c\^+\\Delta\c"
+Disp  ""
+Disp  "\ymean\=f(a,b)"
+Disp  "\Delta\y=\root\((\delta\f\delta\a/\delta\a)\^2\+(\delta\f\Delta\b/\delta\b)\^2\"
+Disp  "y=\ymean\\^+\\Delta\y"
+Goto  top
+\(C)\
+Lbl  ci
+ClrIO
+Disp  "Confidence Interval"
+Disp  "s[\xmean\]=s[x]/\root\(N)"
+Disp  "\sigma\[\xmean\]=\sigma\[x]/\root\(N)"
+Disp  "N>60 - Normal"
+Disp  "\mu\\^+\z[n]*\sigma\[x] | \xmean\\^+\z[n]*s[x]"
+Disp  "N<60 - Student T"
+Disp  "\mu\\^+\t[v]*\sigma\[x] | \xmean\\^+\t[v]*s[x]"
+Disp  "v=N-1"
+Goto  top
+\(C)\
+Lbl  pro
+ClrIO
+Disp  "Aliasing"
+Disp  "f[s]>2*f[highest]"
+Disp  "f[c]<<f[s]/2"
+Goto  top
+\(C)\
+Lbl  qtv
+ClrIO
+Disp  "C*Q+Offset=V"
+Goto  top
+\(C)\
+Lbl  vtq
+ClrIO
+Disp  "C=(V[in]-VADC[min]*2^n/","           (Nominal Span)"
+Goto  top
+\(C)\
+Lbl  res
+ClrIO
+Disp  "Out. Dev. Res.=\Delta\O"
+Disp  "Resolution=\Delta\I"
+Disp  "K=Sensitivity=Slope"
+Disp  "\Delta\I=\Delta\O/K"
+Goto  top
+\(C)\
+Lbl  hy
+ClrIO
+Disp  "max hysteresis="
+Disp  "max(|O[inc]-O[dec]|)/","           (O[max]-O[min]"
+Goto  top
+\(C)\
+Lbl  def
+ClrIO
+Disp  "Out=K*In+B"
+Disp  "K=slope=Sensitivity"
+Disp  "B=y-intercept=Bias"
+Disp  "Non-Lin=line - data"
+Disp  "max nonlin%=max(|K*I+B-O/"
+Disp  "            max(O)-min(O)"
+Goto  top
+\(C)\
+Lbl  pdf
+ClrIO
+Disp  "p(x)==PDF"
+Disp  "1=\integral\(p(x),x,\(-)\\infinity\,\infinity\)"
+Disp  "\mu\=\integral\(x*p(x),x,\(-)\\infinity\,\infinity\)"
+Disp  "Prob btw a & b is:"
+Disp  "\integral\(p(x),x,a,b)"
+Goto  top
+\(C)\
+Lbl  ti
+ClrIO
+Disp  "Nominal range"
+Disp  "\(-)\x to x"
+Disp  "True range"
+Disp  "\(-)\x to (x-Q)"
+Goto  top
+\(C)\
+Lbl  gauss
+ClrIO
+Disp  "p(x)=1/(\sigma\*\root\(2*\pi\))*","      \e\^((x-\mu\)^2/(2*\sigma\^2))"
+Goto  top
+\(C)\
+Lbl  mx
+ClrIO
+Disp  "E[g(x)]=\integral\(g(x)*p(x))"
+Disp  "\mu\=\xmean\=1/N*\Sigma\(X[i])"
+Disp  "\sigma\[x]\^2\=1/N*\Sigma\(x-\mu\)^2"
+Disp  "S[x]\^2\=1/(N-1)*\Sigma\(x-\xmean\)^2"
+
+Goto  top
+\(C)\
+Lbl  mbn
+ClrIO
+Disp  "Calc. Min Bits needed"
+Disp  "Resolution=Nom.Span/2^n"
+Disp  "Round Up"
+Goto  top
+\(C)\
+Lbl  tfn
+ClrIO
+Disp  "t[a]\<=\1/(2^n*\pi\*f)"
+Disp  "f\<=\1/(2^n*\pi\*t[a])"
+Disp  "2^n\<=\1/(f*\pi\*t[a])"
+Disp  "Do not round bits"
+Goto  top
+\(C)\
+Lbl  q
+ClrIO
+Disp  "Q=Nominal Span/2^n"
+Disp  "Q=True Span/(2^n-1)"
+Disp  "Max.Q Err=Q/2"
+Goto  top
+\(C)\
+Lbl  quit
+ClrIO
+ClrDraw
+ClrGraph
+setGraph("Axes","On")
+DispHome
+EndPrgm
+
+\STOP92\

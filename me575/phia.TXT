@@ -1,0 +1,18 @@
+\START92\
+\COMMENT=
+\NAME=‘a
+\FILE=me575.phia.89f
+(a,cl)
+Func
+Local  \alpha\,i,\phi\,n
+ct\poly2cof(cl,s)\->\\alpha\
+list\to\mat(\alpha\)\->\\alpha\
+colDim(\alpha\)\->\n
+newMat(n-1,n-1)\->\\phi\
+For  i,1,n
+\phi\+a^(n-i) .* \alpha\[1,i]\->\\phi\
+EndFor
+Return  \phi\
+EndFunc
+
+\STOP92\

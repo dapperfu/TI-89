@@ -1,0 +1,313 @@
+\START92\
+\COMMENT=
+\NAME=gears
+\FILE=me452.gears.89p
+()
+Prgm
+ClrIO
+Disp  ""
+ClrIO
+Lbl  top
+Toolbar
+Title  "Quit",quit
+Title  "Gears"
+Item  "min(N[p])",mnp
+Item  "max(N[g])",mng
+Item  "LengOfAct,Z",loa
+Title  "Gear Failure"
+Item  "Summary",gs
+Item  "Bending",bendg
+Item  "Wear",wearg
+Item  "k[f1]",kf1
+Item  "k[f2]",kf2
+Item  "K[v]: Dynamic",kvd
+Title  "Springs"
+Item  "Ends",se
+Item  "S[ut]",ssut
+Item  "S[sy]",sssy
+Item  "S[sa] & S[sm]",ssam
+Item  "F@Yield",sfy
+Item  "k",sc
+Item  "\delta\ & L",ds
+Item  "Buckling",sb
+Item  "C",cs
+EndTBar
+\(C)\
+Lbl  zzz
+ClrIO
+
+Goto  top
+\(C)\
+Lbl  loa
+ClrIO
+Disp  "Eqn 14-25,pg 743"
+Disp  "Input: "
+Disp  "a-Addendum"
+Disp  "r[p]-Rad of Pinion"
+Disp  "r[g]-Rad of Gear"
+Disp  "\phi\-Pressure Angle"
+Pause  
+ClrIO
+Input  "\phi\=",\phi\
+Input  "a=",a
+Input  "r[p]=",rp
+Input  "r[g]=",rg
+ClrIO
+\root\((rp+a)^2-(rp*cos(\phi\))^2)+\root\((rg+a)^2-(rg*cos(\phi\))^2)-(rp+rg)*sin(\phi\)\->\z
+Disp  "Z="&string(z)
+Goto  top
+\(C)\
+Lbl  cs
+ClrIO
+Disp  "C=D/d=(D[0]-d)/d"
+Disp  "(2*\alpha\-\beta\)/\beta\+\root\(((2*\alpha\-\beta\)/\beta\)\^2\-","             (3*\alpha\/(4*\beta\)))"
+Disp  "\alpha\=S[sa]/n[f]"
+Disp  "\beta\=8*F[a]/(\pi\*d\^2\)"
+
+Goto  top
+\(C)\
+Lbl  gz
+ClrIO
+PopUp  {"Peened","Uspeened"},a
+If a=1 Then
+398*_mpa\->\ssa
+534*_mpa\->\ssm
+Else
+241*_mpa\->\ssa
+379*_mpa\->\ssm
+EndIf
+Input  "S[su]=",ssu
+Input  "F[a]/\tau\[a]=",fa
+Input  "F[m]/\tau\[m]=",fm
+Goto  top
+\(C)\
+Lbl  ssam
+ClrIO
+Disp  "Peened, pg 528"
+Disp  "S[sa]=57.5 ksi=398 MPa"
+Disp  "S[sm]=77.5 ksi=534 MPa"
+Pause  
+ClrIO
+Disp  "Unpeened, pg 528"
+Disp  "S[sa]=35 ksi=241 MPa"
+Disp  "S[sm]=55 ksi=379 MPa"
+Goto  top
+\(C)\
+Lbl  sb
+ClrIO
+Disp  "Eqn 10-12 pg 514"
+Disp  "Eqn 10-13 pg 515"
+Disp  "                 (steels)"
+Disp  "End Conditions \alpha\,Tbl 10-2"
+Goto  top
+\(C)\
+Lbl  ds
+ClrIO
+Disp  "y=F/k"
+Disp  l[0]=y+l[s]
+Goto  top
+\(C)\
+Lbl  sc
+ClrIO
+Disp  "Eqn. 10-9 pg. 512"
+Disp  "k=d^4*G/(8*D\^3\*N[a])"
+Disp  ""
+Disp  "k=(F[max]-F[min])/","          (y[max]-y[min])"
+Pause  
+ClrIO
+Input  "D[o]=",do
+Input  "d=",d
+do-d\->\dm
+Input  "G=",g
+Input  "N[a]=",na
+d^4*g/(8*dm^3*na)\->\k
+ClrIO
+setUnits({"ENG/US"})
+Disp  "k="&string(approx(k))
+setUnits({"SI"})
+Disp  "k="&string(approx(k))
+Goto  top
+\(C)\
+Lbl  sfy
+ClrIO
+Disp  "F=\pi\*d\^3\*\tau\[all]/(8*K[b]*D"
+Disp  "D=D[o]-d"
+Disp  "K[b]=(4*C+2)/(4*C-3)"
+Disp  "C=D/d"
+Disp  "\tau\[all]=S[sy]/n"
+Disp  "n=1.2 for static, pg 520"
+Pause  
+ClrIO
+Input  "D[o]=",do
+Input  "d=",d
+Input  "\tau\[all]=",ssy
+do-d\->\dm
+dm/d\->\c
+(4*c+2)/(4*c-3)\->\kb
+\pi\*d^3*ssy/(8*kb*dm)\->\f
+ClrIO
+setUnits({"SI"})
+Disp  "F="&string(approx(f))
+setUnits({"ENG/US"})
+Disp  "F="&string(approx(f))
+setUnits({"SI"})
+Goto  top
+\(C)\
+Lbl  sssy
+ClrIO
+Disp  "Tbl. 10-5 & 10-6","pg 518"
+Goto  top
+\(C)\
+Lbl  ssut
+ClrIO
+Disp  "Eqn 10-14, pg 515"
+Disp  "S[ut]=A/d^m"
+Disp  "A & m on Tbl 10-4 pg 517"
+Goto  top
+\(C)\
+Lbl  se
+ClrIO
+Disp  "Tbl. 10-1, pg. 513"
+Goto  top
+\(C)\
+Lbl  wearg
+ClrIO
+Disp  "Eqn 14-14 pg 732"
+Disp  "C[p]\->\ Tbl 14-8 pg 745"
+Disp  "r1 & r2\->\Eqn 14-12 pg 732"
+
+Goto  top
+\(C)\
+Lbl  gs
+ClrIO
+Disp  "pg 754-755"
+Goto  top
+\(C)\
+Lbl  kvd
+ClrIO
+Disp  "pg 727"
+Disp  "pg 744"
+Goto  top
+\(C)\
+Lbl  kf2
+ClrIO
+Disp  "pg 730"
+Disp  "k[f2]=1/K[f]"
+Disp  "r[f]=.3/P (for full depth)"
+Disp  "r/d=r[f]/t"
+Disp  "D/d=\infinity\~=3"
+Disp  "Fig A-15-6 pg 983\->\K[f]"
+Pause  
+ClrIO
+Disp  "r=r[f]"
+Disp  "\root\(a) | Tbl 7-8 pg 337"
+Disp  "                 Shoulder"
+Disp  "K[t]\->\K[f]|Eqn 7-35 pg 37"
+Disp  "k[f2]=1/K[f]"
+Disp  "k[f]=k[f1]*k[f2]"
+Goto  top
+\(C)\
+Lbl  kf1
+ClrIO
+Disp  "Bottom pg 729 - top 730"
+Disp  "k[f1]=1.33 | Goodman"
+Disp  "k[f1]=1.65 | Gerber"
+Disp  "* Default Gerber"
+Disp  "k[f]=k[f1]*k[f2]"
+Goto  top
+\(C)\
+Lbl  bendg
+ClrIO
+Disp  "Ex 14-1 & 14-2 pg 728"
+Disp  "1. V[p] | d[p] & n[p]"
+Disp  "2. S[e] | S[e]' & Marin"
+Disp  "3. \sigma\[all]=S[e]/n[d]"
+Disp  "4. Power | Wt, K[v]"
+Goto  top
+\(C)\
+Lbl  mng
+ClrIO
+Input  "N[p]=",np
+ClrIO
+PopUp  {"Full Depth","Stub"},ts
+If ts=1 Then
+1\->\k
+Else
+0.8\->\k
+EndIf
+PopUp  {"\phi\=20\o\","\phi\=22.5\o\","\phi\=25\o\","Other"},\phi\s
+ClrIO
+If \phi\s=1 Then
+20\->\\phi\
+ElseIf \phi\s=2 Then
+22.5\->\\phi\
+ElseIf \phi\s=3 Then
+25\->\\phi\
+Else
+Input  "\phi\=",\phi\
+EndIf
+ClrIO
+(np^2*(sin(\phi\))^2-4*k^2)/(4*k-2*np*(sin(\phi\))^2)\->\ng
+Disp  "eqn. 13-13   pg. 677"
+Disp  "N[g]<"&string(approx(ng))
+Disp  "N[g]="&string(floor(ng))
+
+Goto  top
+\(C)\
+Lbl  mnp
+ClrIO
+PopUp  {"N[p]=N[g]","N[p]<N[g]","Rack & Pinion"},a
+Disp  "pg. 686"
+PopUp  {"Full Depth","Stub"},ts
+If ts=1 Then
+1\->\k
+Else
+0.8\->\k
+EndIf
+PopUp  {"\phi\=20\o\","\phi\=22.5\o\","\phi\=25\o\","Other"},\phi\s
+ClrIO
+If \phi\s=1 Then
+20\->\\phi\
+ElseIf \phi\s=2 Then
+22.5\->\\phi\
+ElseIf \phi\s=3 Then
+25\->\\phi\
+Else
+Input  "\phi\=",\phi\
+EndIf
+ClrIO
+If a=1 Then
+Disp  "m[g]=N[g]/N[p]"
+Disp  "m[g]=1"
+Disp  "Eqn. 13-10 pg. 676"
+4*k/(6*(sin(\phi\))^2)*(1+\root\(1+3*(sin(\phi\))^2))\->\np
+Disp  "N[p]>"&string(approx(np))
+Disp  "N[p]="&string(approx(ceiling(np)))
+ElseIf a=2 Then
+ClrIO
+Input  "m[g]=",m
+ClrIO
+Disp  "m[g]=N[g]/N[p]"
+Disp  "m[g]="&string(m)
+Disp  "Eqn. 13-11 pg. 676"
+2*k/((1+2*m)*(sin(\phi\))^2)*(m+\root\(m^2+(1+2*m)*(sin(\phi\))^2))\->\np
+Disp  "N[p]>"&string(approx(np))
+Disp  "N[p]="&string(approx(ceiling(np)))
+Else
+Disp  "m[g]=\infinity\"
+Disp  "Eqn. 13-12 pg. 677"
+4*k/(2*(sin(\phi\))^2)\->\np
+Disp  "N[p]>"&string(approx(np))
+Disp  "N[p]="&string(approx(ceiling(np)))
+EndIf
+Goto  top
+\(C)\
+(np^2*(sin(\phi\))^2-4*k^2)/(4*k-2*np*(sin(\phi\))^2)
+
+
+Lbl  quit
+ClrIO
+DispHome
+EndPrgm
+
+\STOP92\

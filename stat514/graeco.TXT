@@ -1,0 +1,107 @@
+\START92\
+\COMMENT=
+\NAME=graeco
+\FILE=statvars.graeco.89p
+(data,mask1,mask2)
+Prgm
+ClrIO
+Disp  "Processing..."
+dim(data)\->\d
+If d[1]\!=\d[2] Then
+4/0
+EndIf
+d[1]\->\p
+
+mat\to\list(data)\->\datal
+{}\->\col
+{}\->\row
+{}\->\yi
+{}\->\yj
+For  i,1,p
+sum(mat\to\list(data[i]))\->\yi[i]
+sum(mat\to\list(data\t\[i]))\->\yk[i]
+EndFor
+mean(datal)\->\\mu\
+summask(data,mask1)
+tot\->\yj
+summask(data,mask2)
+tot\->\yl
+yi/p\->\row
+yj/p\->\trt
+yk/p\->\col
+yl/p\->\grk
+ClrIO
+Disp  "\ymean\[i***](rows)="
+Disp  round(row,2)
+Disp  "\ymean\[*j**](trt)="
+Disp  round(trt,2)
+Pause  
+ClrIO
+Disp  "\ymean\[**k*](cols)="
+Disp  round(col,2)
+Disp  "\ymean\[***l](greek)="
+Disp  round(grk,2)
+Disp  "\mu\=\ymean\[****]="&string(round(\mu\,2))
+row-\mu\\->\\alpha\
+trt-\mu\\->\\tau\
+col-\mu\\->\\beta\
+grk-\mu\\->\\zeta\
+p*sum(\alpha\^2)\->\ssrow
+p*sum(\tau\^2)\->\sstrt
+p*sum(\beta\^2)\->\sscol
+p*sum(\zeta\^2)\->\ssgrk
+sum((datal-\mu\)^2)\->\sst
+sst-ssrow-sstrt-sscol-ssgrk\->\sse
+Pause  
+ClrIO
+Disp  "\tau\="
+Disp  round(\tau\,3)
+Disp  "\alpha\="
+Disp  round(\alpha\,3)
+Pause  
+ClrIO
+Disp  "\beta\="
+Disp  round(\beta\,3)
+Disp  "\zeta\="
+Disp  round(\zeta\,3)
+Pause  
+ClrIO
+Disp  "SS[row]="&string(approx(ssrow))
+Disp  "SS[col]="&string(approx(sscol))
+Disp  "SS[trt]="&string(approx(sstrt))
+Disp  "SS[grk]="&string(approx(ssgrk))
+Pause  
+ClrIO
+Disp  "SS[e]="&string(approx(sse))
+Disp  "SS[T]="&string(approx(sst))
+ssrow/(p-1)\->\msrow
+sstrt/(p-1)\->\mstrt
+sscol/(p-1)\->\mscol
+ssgrk/(p-1)\->\msgrk
+sse/((p-3)*(p-1))\->\mse
+Pause  
+ClrIO
+Disp  "MS[row]="&string(approx(msrow))
+Disp  "MS[col]="&string(approx(mscol))
+Disp  "MS[trt]="&string(approx(mstrt))
+Disp  "MS[grk]="&string(approx(msgrk))
+Disp  "MS[e]  ="&string(approx(mse))
+msrow/mse\->\frow
+mscol/mse\->\fcol
+mstrt/mse\->\ftrt
+msgrk/mse\->\fgrk
+tistat.fcdf(frow,\infinity\,p-1,(p-1)*(p-3))\->\prow
+tistat.fcdf(fcol,\infinity\,p-1,(p-1)*(p-3))\->\pcol
+tistat.fcdf(ftrt,\infinity\,p-1,(p-1)*(p-3))\->\ptrt
+tistat.fcdf(fgrk,\infinity\,p-1,(p-1)*(p-3))\->\pgrk
+Pause  
+ClrIO
+Disp  "F[row]="&string(round(frow,2))&"  P[row]="&string(round(prow,4))
+Disp  "F[col]="&string(round(fcol,2))&"  P[col]="&string(round(pcol,4))
+Disp  "F[trt]="&string(round(ftrt,2))&"  P[trt]="&string(round(ptrt,4))
+Disp  "F[grk]="&string(round(fgrk,2))&"  P[grk]="&string(round(pgrk,4))
+Pause  
+ClrIO
+EndPrgm
+
+\STOP92\

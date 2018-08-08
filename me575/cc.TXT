@@ -1,0 +1,11 @@
+\START92\
+\COMMENT=
+\NAME=cc
+\FILE=me575.cc.89p
+(a,b)
+Prgm
+Local w1,w2,t1,t1inv
+wc(a,b)\->\w1
+wcinv(a)\->\w2
+EndPrgm
+\STOP92\

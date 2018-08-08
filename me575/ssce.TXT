@@ -1,0 +1,14 @@
+\START92\
+\COMMENT=
+\NAME=ssce
+\FILE=me575.ssce.89f
+(a)
+Func
+\(C)\ state space characteristic equation
+If colDim(a)\!=\rowDim(a) Then
+Return  "A matrix is not square"
+EndIf
+Return  expand(det(identity(colDim(a))*s-a))
+EndFunc
+
+\STOP92\

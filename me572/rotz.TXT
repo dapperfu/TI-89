@@ -1,0 +1,10 @@
+\START92\
+\COMMENT=
+\NAME=rotz
+\FILE=me572.rotz.89f
+(\theta\)
+Func
+Return  [[cos(\theta\),\(-)\sin(\theta\),0][sin(\theta\),cos(\theta\),0][0,0,1]]
+EndFunc
+
+\STOP92\

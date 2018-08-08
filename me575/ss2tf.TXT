@@ -1,0 +1,12 @@
+\START92\
+\COMMENT=
+\NAME=ss2tf
+\FILE=me575.ss2tf.89f
+(a,b,c)
+Func
+Local n,x
+colDim(a)\->\n
+c*(s*identity(n)-a)^(\(-)\1)*b\->\x
+Return x[1,1]
+EndFunc
+\STOP92\

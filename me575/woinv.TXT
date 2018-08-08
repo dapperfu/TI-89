@@ -1,0 +1,10 @@
+\START92\
+\COMMENT=
+\NAME=woinv
+\FILE=me575.woinv.89f
+(a)
+Func
+Return  w_inv(a)
+EndFunc
+
+\STOP92\

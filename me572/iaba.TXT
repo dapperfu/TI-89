@@ -1,0 +1,16 @@
+\START92\
+\COMMENT=
+\NAME=iaba
+\FILE=me572.iaba.89f
+(i1ri,i1abi1,i1ai1,qd,qdd,i1wi1,iwi,pstar,t)
+Func
+Local e,j
+[[0,0,1]]\t\\->\e
+If t="r" Then
+0\->\j
+Else
+1\->\j
+EndIf
+Return i1ri\t\*(i1abi1+(qdd*e+2*qd*crossP(i1wi1,e))*j)+crossP(i1ai1,pstar)+crossP(iwi,crossP(iwi,pstar))
+EndFunc
+\STOP92\

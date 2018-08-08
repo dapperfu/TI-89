@@ -1,0 +1,141 @@
+\START92\
+\COMMENT=
+\NAME=kfact
+\FILE=statvars.kfact.89p
+(factk,data)
+Prgm
+ClrIO
+Disp  "Processing..."
+rowDim(data)\->\r
+colDim(data)\->\n
+colDim(factk)\->\k
+mat\to\list(data)\->\datal
+If r\!=\2^k Then
+Disp  "Error: r\!=\2^k"
+Goto  ex
+EndIf
+{}\->\rs
+{}\->\rm
+For  i,1,r
+sum(mat\to\list(data[i]))\->\rs[i]
+mean(mat\to\list(data[i]))\->\rm[i]
+EndFor
+list\to\mat(rm)\->\rm
+list\to\mat(rs)\->\rs
+{}\->\ss1
+{}\->\ss2
+{}\->\ss3
+{}\->\ss4
+{}\->\me1
+{}\->\me2
+{}\->\me3
+{}\->\me4
+{}\->\lab1
+{}\->\lab2
+{}\->\lab3
+{}\->\lab4
+ClrIO
+For  i,1,k
+factk\t\[i]*rm\t\/2^(k-1)\->\tmp
+tmp[1,1]\->\me1[i]
+2^k*n*me1[i]^2/4\->\ss1[i]
+char(i+64)\->\lab1[i]
+EndFor
+1\->\i1
+For  i,1,k-1
+For  j,i+1,k
+factk\t\[i] .* factk\t\[j]*rm\t\/2^(k-1)\->\tmp
+tmp[1,1]\->\me2[i1]
+2^k*n*me2[i1]^2/4\->\ss2[i1]
+char(i+64)&char(j+64)\->\lab2[i1]
+i1+1\->\i1
+EndFor
+EndFor
+1\->\i2
+For  i,1,k-2
+For  j,i+1,k-1
+For  kk,j+1,k
+factk\t\[i] .* factk\t\[j] .* factk\t\[kk]*rm\t\/2^(k-1)\->\tmp
+tmp[1,1]\->\me3[i2]
+2^k*n*me3[i2]^2/4\->\ss3[i2]
+char(i+64)&char(j+64)&char(kk+64)\->\lab3[i2]
+i2+1\->\i2
+EndFor
+EndFor
+EndFor
+1\->\i3
+For  i,1,k-3
+For  j,i+1,k-2
+For  kk,j+1,k-1
+For  l,kk+1,k
+factk\t\[i] .* factk\t\[j] .* factk\t\[kk] .* factk\t\[l]*rm\t\/2^(k-1)\->\tmp
+tmp[1,1]\->\me4[i3]
+2^k*n*me4[z3]^2/4\->\ss4[i3]
+char(i+64)&char(j+64)&char(kk+64)&char(l+64)\->\lab4[i3]
+i3+1\->\i3
+EndFor
+EndFor
+EndFor
+EndFor
+
+sum(datal^2)-(sum(datal))^2/(2^k*n)\->\sst
+sst-(sum(ss1)+sum(ss2)+sum(ss3))\->\sse
+Disp  "SS[t]="&string(round(sst,2))&"  df[t]="&string(approx(n*2^k-1))
+Disp  "SS[e]="&string(round(sse,2))&"  df[e]="&string(approx(2^k*(n-1)))
+Disp  ""
+Disp  "y**="&string(round(mean(datal),4))
+sse/(2^k*(n-1))\->\mse
+ss1/mse\->\f1
+ss2/mse\->\f2
+ss3/mse\->\f3
+ss4/mse\->\f4
+Pause  
+ClrIO
+\(C)\ q factor
+For  i,1,k
+Disp  "MS["&lab1[i]&"]="&string(round(ss1[i],3))
+Disp  "F0["&lab1[i]&"]="&string(round(f1[i],3))
+Disp  "p["&lab1[i]&"]= "&string(round(tistat.fcdf(f1[i],\infinity\,1,2^k*(n-1)),4))
+Disp  lab1[i]&"=    "&string(round(me1[i],4))
+Disp  lab1[i]&"/2=  "&string(round(me1[i]/2,4))
+Pause  
+ClrIO
+EndFor
+\(C)\ 2 factor
+For  i,1,i1-1
+Disp  "MS["&lab2[i]&"]="&string(round(ss2[i],3))
+Disp  "F0["&lab2[i]&"]="&string(round(f2[i],3))
+Disp  "p["&lab2[i]&"]= "&string(round(tistat.fcdf(f2[i],\infinity\,1,2^k*(n-1)),4))
+Disp  lab2[i]&"=    "&string(round(me2[i],4))
+Disp  lab2[i]&"/2=  "&string(round(me2[i]/2,4))
+Pause  
+ClrIO
+EndFor
+
+\(C)\ 3 factor
+For  i,1,i2-1
+Disp  "MS["&lab3[i]&"]="&string(round(ss3[i],3))
+Disp  "F0["&lab3[i]&"]="&string(round(f3[i],3))
+Disp  "p["&lab3[i]&"]= "&string(round(tistat.fcdf(f3[i],\infinity\,1,2^k*(n-1)),4))
+Disp  lab3[i]&"=    "&string(round(me3[i],4))
+Disp  lab3[i]&"/2=  "&string(round(me3[i]/2,4))
+Pause  
+ClrIO
+EndFor
+
+\(C)\ 4 factor
+For  i,1,i3-1
+Disp  "MS["&lab4[i]&"]="&string(round(ss4[i],3))
+Disp  "F0["&lab4[i]&"]="&string(round(f4[i],3))
+Disp  "p["&lab4[i]&"]= "&string(round(tistat.fcdf(f4[i],\infinity\,1,2^k*(n-1)),4))
+Disp  lab4[i]&"=    "&string(round(me4[i],4))
+Disp  lab4[i]&"/2=  "&string(round(me4[i]/2,4))
+Pause  
+ClrIO
+EndFor
+
+Lbl  ex
+DispHome
+EndPrgm
+
+\STOP92\

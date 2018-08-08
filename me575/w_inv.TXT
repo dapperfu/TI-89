@@ -1,0 +1,25 @@
+\START92\
+\COMMENT=
+\NAME=w_inv
+\FILE=me575.w_inv.89f
+(a)
+Func
+Local  ce,m,r,p,n,i,c
+ssce(a)\->\ce
+ct\poly2cof(ce,s)\->\p
+newMat(rowDim(a),colDim(a))\->\m
+colDim(a)\->\n
+For  r,1,rowDim(a)
+For  c,1,colDim(a)
+n-c-r+2\->\i
+If i\>=\1 Then
+p[i]\->\m[r,c]
+ElseIf i<1 Then
+0\->\m[r,c]
+EndIf
+EndFor
+EndFor
+Return  m
+EndFunc
+
+\STOP92\

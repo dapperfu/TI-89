@@ -1,0 +1,9 @@
+\START92\
+\COMMENT=
+\NAME=zerovec
+\FILE=me572.zerovec.89f
+(x)
+Func
+
+EndFunc
+\STOP92\

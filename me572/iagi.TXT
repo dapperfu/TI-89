@@ -1,0 +1,10 @@
+\START92\
+\COMMENT=
+\NAME=iagi
+\FILE=me572.iagi.89f
+(iabi,iai,igi,iwi)
+Func
+Return  iabi+crossP(iai,igi)+crossP(iwi,crossP(iwi,igi))
+EndFunc
+
+\STOP92\

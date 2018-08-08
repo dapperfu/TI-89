@@ -1,0 +1,17 @@
+\START92\
+\COMMENT=
+\NAME=dh
+\FILE=me572.dh.89f
+(\theta\,d,a,\alpha\)
+Func
+Local  \theta\,d,a,\alpha\,x
+\(C)\ \theta\ Rotation about Z[i] from X[i-1] to X[i] (ccw)
+\(C)\ d Distance from origin of i frame along Z[i-1] to intersection of X[i] with Z[i-1]
+\(C)\ a Distance along common normal on X[i].
+\(C)\ \alpha\ Rotation (twist) about Xi from Z[i-1] to Z[i]. (ccw)
+\(C)\ 
+[[cos(\theta\),\(-)\sin(\theta\)*cos(\alpha\),sin(\theta\)*sin(\alpha\),a*cos(\theta\)][sin(\theta\),cos(\theta\)*cos(\alpha\),\(-)\cos(\theta\)*sin(\alpha\),a*sin(\theta\)][0,sin(\alpha\),cos(\alpha\),d][0,0,0,1]]\->\x
+Return  x
+EndFunc
+
+\STOP92\

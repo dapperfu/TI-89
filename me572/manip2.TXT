@@ -1,0 +1,40 @@
+\START92\
+\COMMENT=
+\NAME=manip2
+\FILE=me572.manip2.89p
+(b)
+Prgm
+Local  n,jtop,b,binv,\phi\,r,ax,by,cz,\beta\,tmp
+Disp  ""
+ClrIO
+If rowDim(b)\!=\colDim(b) Then
+Disp  "B not square"
+Return  
+EndIf
+rowDim(b)\->\n
+b^(\(-)\1)\->\binv
+eigVl(binv)\->\\phi\
+eigVc(binv)\->\r
+1/(\root\(\phi\[1]))\->\ax
+1/(\root\(\phi\[2]))\->\by
+If sign(r[1,1])\!=\sign(r[2,2]) Then
+Disp  "Shits messed up. Check it"
+Return  
+EndIf
+Disp  "ax="&string(ax)
+Disp  "by="&string(by)
+If n=3 Then
+1/(\root\(\phi\[3]))\->\cz
+Disp  "cz="&string(cz)
+Else
+getMode("Angle")\->\tmp
+setMode("Angle","DEGREE")
+R\to\P\theta\(r[1,1],r[2,1])\->\\beta\
+setMode("Angle",tmp)
+Disp  "\beta\="&string(\beta\)&"\o\"
+EndIf
+Pause  
+DispHome
+EndPrgm
+
+\STOP92\

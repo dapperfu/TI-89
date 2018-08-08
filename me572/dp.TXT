@@ -1,0 +1,10 @@
+\START92\
+\COMMENT=
+\NAME=dp
+\FILE=me572.dp.89f
+()
+Func
+\(C)\ dQ prismatic
+Return [[0,0,0,0][0,0,0,0][0,0,0,1][0,0,0,0]]
+EndFunc
+\STOP92\

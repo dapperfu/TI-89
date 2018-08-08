@@ -1,0 +1,31 @@
+\START92\
+\COMMENT=
+\NAME=matred
+\FILE=statvars.matred.89f
+(m,nx,ny)
+Func
+Local  x,y,i,j,stx,sty,ex,ey,m2
+rowDim(m)\->\y
+colDim(m)\->\x
+\(C)\Disp {y/ny,x/nx}:Pause 
+newMat(y/ny,x/nx)\->\m2
+For  i,1,x/nx
+For  j,1,y/ny
+i*nx-(nx-1)\->\sty
+(i+1)*nx-nx\->\ey
+j*ny-(ny-1)\->\stx
+(j+1)*ny-ny\->\ex
+sum(mat\to\list(subMat(m,stx,sty,ex,ey)))\->\m2[j,i]
+\(C)\ClrIO
+\(C)\Disp {x/nx,y/ny}
+\(C)\Disp {stx,sty,ex,ey}
+\(C)\Disp subMat(fa,sty,stx,ex,ey)
+\(C)\Disp m2[j,i]
+\(C)\Pause 
+EndFor
+EndFor
+\(C)\Disp m2\t\
+Return  m2
+EndFunc
+
+\STOP92\

@@ -1,0 +1,24 @@
+\START92\
+\COMMENT=
+\NAME=iwi
+\FILE=me572.iwi.89p
+(i1ri,i1wi1,qd,t)
+Prgm
+Local i1wi1,qd,e,j,iri1,t
+Try
+If colDim(i1wi1)=3 Then
+i1wi1\t\\->\i1wi1
+EndIf
+Else
+[[0,0,0]]\t\\->\i1wi1
+EndTry
+[[0,0,1]]\t\\->\e
+If t="r" Then
+0\->\j
+Else
+1\->\j
+EndIf
+i1ri\t\*(i1wi1+qd*e*(1-j))\->\w
+
+EndPrgm
+\STOP92\

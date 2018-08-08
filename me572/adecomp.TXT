@@ -1,0 +1,36 @@
+\START92\
+\COMMENT=
+\NAME=adecomp
+\FILE=me572.adecomp.89p
+(a)
+Prgm
+Local  iri1,i1ri,p,p_star
+Disp  ""
+ClrIO
+subMat(a,1,1,3,3)\->\r
+subMat(a,1,4,3,4)\->\p
+r\t\*p\->\p_star
+ClrIO
+Disp  "[i-1]A[i]"
+Disp  a
+Pause  
+ClrIO
+Disp  "[i-1]R[i]"
+Disp  r
+Pause  
+ClrIO
+Disp  "[i-1]R\t\[i]=[i]R[i-1]"
+Disp  r\t\
+Pause  
+ClrIO
+Disp  "[i-1]P*[i]"
+Disp  p
+Pause  
+ClrIO
+Disp  "[i]P*[i]"
+Disp  p_star
+Pause  
+ClrIO
+EndPrgm
+
+\STOP92\

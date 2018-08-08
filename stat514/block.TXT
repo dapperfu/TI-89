@@ -1,0 +1,72 @@
+\START92\
+\COMMENT=
+\NAME=block
+\FILE=statvars.block.89p
+(data)
+Prgm
+ClrIO
+Disp  "Processing..."
+dim(data)\->\d
+d[1]\->\a
+d[2]\->\b
+
+mat\to\list(data)\->\datal
+{}\->\col
+{}\->\row
+{}\->\yi
+{}\->\yj
+{}\->\yk
+For  i,1,a
+sum(mat\to\list(data[i]))\->\yi[i]
+EndFor
+For  i,1,b
+sum(mat\to\list(data\t\[i]))\->\yk[i]
+EndFor
+mean(datal)\->\\mu\
+yi/b\->\row
+yk/a\->\col
+ClrIO
+Disp  "\ymean\[i*](rows/trt)="
+Disp  round(row,2)
+Disp  "\ymean\[*j](cols/blck)="
+Disp  round(col,2)
+Disp  "\mu\=\ymean\[**]="&string(round(\mu\,2))
+row-\mu\\->\\tau\
+col-\mu\\->\\beta\
+b*sum(\tau\^2)\->\ssrow
+a*sum(\beta\^2)\->\sscol
+sum((datal-\mu\)^2)\->\sst
+sst-ssrow-sscol\->\sse
+Pause  
+ClrIO
+Disp  "\tau\="
+Disp  round(\tau\,3)
+Disp  "\beta\="
+Disp  round(\beta\,3)
+Pause  
+ClrIO
+Disp  "SS[trt]="&string(approx(ssrow))
+Disp  "SS[blk]="&string(approx(sscol))
+Disp  "SS[e]="&string(approx(sse))
+Disp  "SS[T]="&string(approx(sst))
+ssrow/(a-1)\->\msrow
+sscol/(b-1)\->\mscol
+sse/((a-1)*(b-1))\->\mse
+Pause  
+ClrIO
+Disp  "MS[trt]="&string(approx(msrow))
+Disp  "MS[blck]="&string(approx(mscol))
+Disp  "MS[e]="&string(approx(mse))
+msrow/mse\->\frow
+mscol/mse\->\fcol
+tistat.fcdf(frow,\infinity\,a-1,(a-1)*(b-1))\->\prow
+tistat.fcdf(fcol,\infinity\,b-1,(a-1)*(b-1))\->\pcol
+Pause  
+ClrIO
+Disp  "F[trt]="&string(round(frow,2))&"  P[trt]="&string(round(prow,4))
+Disp  "F[col]="&string(round(fcol,2))&"  P[col]="&string(round(pcol,4))
+Pause  
+ClrIO
+EndPrgm
+
+\STOP92\

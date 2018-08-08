@@ -1,0 +1,33 @@
+\START92\
+\COMMENT=
+\NAME=summask
+\FILE=statvars.summask.89p
+(data,m)
+Prgm
+dim(m)\->\d
+d[1]\->\d
+{}\->\tot
+For  i,1,d
+0\->\tot[i]
+EndFor
+\(C)\ClrIO
+mat\to\list(m)\->\ml
+mat\to\list(data)\->\dl
+For  k,1,d
+\(C)\Disp k
+mat\to\list(identity(d))\->\mask
+Fill  k,mask
+\(C)\Disp mask
+\(C)\Disp ml
+ml=mask\->\mask
+\(C)\Disp mask
+For  c,1,d*d
+If mask[c] Then
+dl[c]+tot[k]\->\tot[k]
+EndIf
+EndFor
+EndFor
+\(C)\Disp tot
+EndPrgm
+
+\STOP92\

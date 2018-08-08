@@ -1,0 +1,102 @@
+\START92\
+\COMMENT=
+\NAME=fact
+\FILE=statvars.fact.89p
+(m,nx,ny)
+Prgm
+ClrIO
+Disp "Processing..."
+matred(m,nx,ny)\->\data
+dim(data)\->\d
+nx*ny\->\n
+d[1]\->\a
+d[2]\->\b
+
+mat\to\list(data)\->\datal
+mat\to\list(m)\->\ml
+
+sum(datal)\->\yt
+{}\->\col
+{}\->\row
+{}\->\yi
+{}\->\yj
+For i,1,a
+sum(mat\to\list(data[i]))\->\yi[i]
+EndFor
+For i,1,b
+sum(mat\to\list(data\t\[i]))\->\yj[i]
+EndFor
+mean(datal)/n\->\\mu\
+yi/(b*n)\->\row
+yj/(a*n)\->\col
+ClrIO
+Disp "\ymean\[i**](rows/trt)="
+Disp round(row,2)
+Disp "\ymean\[*j*](cols/blck)="
+Disp round(col,2)
+Disp "\mu\=\ymean\[***]="&string(round(\mu\,2))
+Pause 
+ClrIO
+Disp "y[i**](rows/trt)="
+Disp string(round(yi,2))
+Disp "y[*j*](cols/blck)="
+Disp string(round(yj,2))
+Disp "y[***]="&string(round(yt,2))
+
+row-\mu\\->\\tau\
+col-\mu\\->\\beta\
+Pause 
+ClrIO
+Disp "\tau\="
+Disp round(\tau\,2)
+Disp "\beta\="
+Disp round(\beta\,2)
+newMat(a,b)\->\\tau\\beta\
+For i,1,a
+For j,1,b
+data[i,j]/n-row[i]-col[j]+\mu\\->\\tau\\beta\[i,j]
+EndFor
+EndFor
+Pause 
+ClrIO
+Disp "\tau\\beta\="
+Disp round(\tau\\beta\,2)
+
+sum(ml^2)-yt^2/(a*b*n)\->\sst
+1/(b*n)*sum(yi^2)-yt^2/(a*b*n)\->\ssrow
+1/(a*n)*sum(yj^2)-yt^2/(a*b*n)\->\sscol
+1/n*sum(datal^2)-yt^2/(a*b*n)-sscol-ssrow\->\ssi
+sst-ssrow-sscol-ssi\->\sse
+Pause 
+ClrIO
+Disp "SSt="&string(approx(sst))
+Disp "SStrt/row="&string(approx(ssrow))
+Disp "SSb/col="&string(approx(sscol))
+Disp "SSint="&string(approx(ssi))
+Disp "SSe="&string(approx(sse))
+ssrow/(a-1)\->\msrow
+sscol/(b-1)\->\mscol
+ssi/((a-1)*(b-1))\->\msi
+sse/(a*b*(n-1))\->\mse
+Pause 
+ClrIO
+Disp "MS[trt]="&string(approx(msrow))
+Disp "MS[blck]="&string(approx(mscol))
+Disp "MS[int]="&string(approx(msi))
+Disp "MS[e]="&string(approx(mse))
+msrow/mse\->\frow
+mscol/mse\->\fcol
+msi/mse\->\fi
+tistat.fcdf(frow,\infinity\,a-1,a*b*(n-1))\->\prow
+tistat.fcdf(fcol,\infinity\,b-1,a*b*(n-1))\->\pcol
+tistat.fcdf(fi,\infinity\,(b-1)*(a-1),a*b*(n-1))\->\pi
+Pause 
+ClrIO
+Disp "F[trt]="&string(round(frow,2))&"  P[trt]="&string(round(prow,4))
+Disp "F[col]="&string(round(fcol,2))&"  P[col]="&string(round(pcol,4))
+Disp "F[int]="&string(round(fi,2))&"  P[int]="&string(round(pi,4))
+
+Pause 
+DispHome
+EndPrgm
+\STOP92\
